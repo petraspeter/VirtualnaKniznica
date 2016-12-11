@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import sk.upjs.ics.paz1c.dao.KnihaDao;
 import sk.upjs.ics.paz1c.entity.Kniha;
 import sk.upjs.ics.paz1c.mapovace.KnihaRowMapper;
@@ -121,7 +120,7 @@ public class DatabazovyKnihaDao implements KnihaDao{
         vlozKnihuZMapy.put("oblubenost_kniha", kniha.getOblubenostKniha());
         vlozKnihuZMapy.put("pocet_stran", kniha.getPocetStran());
         vlozKnihuZMapy.put("popis_kniha", kniha.getPocetStran());
-
+        
         String sql = "INSERT INTO kniha SET nazov_kniha = :nazov_kniha, alias_kniha = :alias_kniha, "
                 + "autor_kniha = :autor_kniha, url_kniha = :url_kniha, pridal_kniha = :pridal_kniha, "
                 + "format_kniha = :format_kniha, zaner = :zaner, jazyk_1 = :jazyk_1, jazyk_2 = :jazyk_2, "
@@ -130,5 +129,34 @@ public class DatabazovyKnihaDao implements KnihaDao{
         
         namedParameterJdbcTemplate.update(sql, vlozKnihuZMapy);
     }
-        
+    
+    @Override
+    public String vratZaner(long idZanru) {
+        String sql = "SELECT nazov_zaner FROM zaner  WHERE id_zaner = ?";
+        return jdbcTemplate.queryForObject(sql, String.class,idZanru);
+    }
+    
+    /*
+    metody vracaju len nazvy, ktore budu vyuzite ako slovniky pri vyhladavani
+    */
+    @Override
+    public List<String> nacitajZanre() {
+        String sql = "SELECT nazov_zaner from zaner";
+        List<String> zanre = (List<String>) jdbcTemplate.queryForList(sql, String.class);
+        for (String string : zanre) {
+            string.toLowerCase();
+        }
+        return zanre;
+    }
+    
+    @Override
+    public List<String> nacitajKnihy() {
+        String sql = "SELECT nazov_kniha from kniha";
+        List<String> knihy = (List<String>) jdbcTemplate.queryForList(sql, String.class);
+        for (String string : knihy) {
+            string.toLowerCase();
+        }
+        return knihy;
+    }
+    
 }

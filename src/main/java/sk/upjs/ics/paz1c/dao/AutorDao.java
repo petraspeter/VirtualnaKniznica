@@ -16,10 +16,10 @@ public interface AutorDao {
     
     List<Kniha> najdiKnihuPodlaAutora(Long id);
     
+    List<String> nacitajAutorov();
+    
     Autor najdiAutora(String meno, String priezvisko, String stredne);
-    
-    Autor najdiAutora(String meno, String priezvisko);
-    
+        
     Autor najdiAutora(Long id);
     
     public void pridajAutora(Autor autor);

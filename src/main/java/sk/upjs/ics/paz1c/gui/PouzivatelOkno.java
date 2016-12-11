@@ -236,6 +236,11 @@ public class PouzivatelOkno extends javax.swing.JFrame {
         OdhlasSaButton.setText("Odhlás sa");
 
         oblubeneKnihyButton.setText("Obľúbené");
+        oblubeneKnihyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oblubeneKnihyButtonActionPerformed(evt);
+            }
+        });
 
         rozcitaneKnihyButton.setText("Rozčítané");
 
@@ -333,6 +338,10 @@ public class PouzivatelOkno extends javax.swing.JFrame {
     private void pridajKnihuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pridajKnihuButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pridajKnihuButtonActionPerformed
+
+    private void oblubeneKnihyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oblubeneKnihyButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oblubeneKnihyButtonActionPerformed
 
     /**
      * @param args the command line arguments

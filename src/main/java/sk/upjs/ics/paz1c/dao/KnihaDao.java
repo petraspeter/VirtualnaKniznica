@@ -18,6 +18,12 @@ public interface KnihaDao {
     List<Kniha> najdiPodlaJazyka(String jazyk);
         
     List<Kniha> najdiPodlaOblubenosti();
+    
+    List<String> nacitajZanre();
+    
+    List<String> nacitajKnihy();
+    
+    public String vratZaner(long idZanru);
 
     public void vymazKnihu(Long id);
 

@@ -35,23 +35,25 @@ public class citacVstupu {
     testovanie dao-a
     */
     public static void main(String[] args) {
+        
         JdbcTemplate jdbcTemplate = MagicFactory.INSTANCE.getJdbcTemplate();
         Kniha kniha = new Kniha();
         DatabazovyKnihaDao dkd = new DatabazovyKnihaDao(jdbcTemplate);
         List<Kniha> knihy = new ArrayList<>();
         knihy = dkd.najdiPodlaNazvu("ran");
         kniha = knihy.get(0);
+        System.out.println(dkd.vratZaner(5));
 //        kniha.setPopisKniha("Havran je jednou z najznámejších básní americkej literatúry. Medzi jej "
 //                + "charakteristické rysy patrí zvuková bohatosť až muzikálnosť (porov. havranom neustále "
 //                + "opakované Nevermore), jazyková štylizácia a nadprirodzená atmosféra plná symbolov. "
-//                + "Z týchto dôvodov sa báseň považuje za jeden z najväčších prekladateľských orieškov.");   
-        System.out.println(kniha.getAliasKniha());
-     //   dkd.upravKnihu(kniha);
+//                + "Z týchto dôvodov sa báseň považuje za jeden z najväčších prekladateľských orieškov.");
+System.out.println(kniha.getAliasKniha());
+//   dkd.upravKnihu(kniha);
 
 
-        DatabazovyAutorDao dad = new DatabazovyAutorDao(jdbcTemplate);        
-        knihy = dad.najdiKnihuPodlaAutora("edgar", "", "");
-        System.out.println(knihy.get(0).getNazovKniha());
+DatabazovyAutorDao dad = new DatabazovyAutorDao(jdbcTemplate);
+knihy = dad.najdiKnihuPodlaAutora("edgar", "", "");
+System.out.println(knihy.get(0).getNazovKniha());
 //        Autor autor = new Autor("George", "Orwell", "");
 //      // dad.pridajAutora(autor);
 //      Autor a = new Autor();
@@ -61,16 +63,16 @@ public class citacVstupu {
 //  //    a = dad.najdiAutora("george", "orwell");
 //      System.out.println(a.getMenoAutor());
 //      dad.najdiAutora(a.getMenoAutor(), a.getPriezviskoAutor());
-////        
+////
 //        System.out.println(knihy.get(0).getPopisKniha());
-//        
+//
 //        DatabazovyPouzivatelDao dpd = new DatabazovyPouzivatelDao(jdbcTemplate);
-       // dpd.zaregistrujPouzivatela("gyula2", "hesloAkeNeuhadnes", "gyula@gyula.hu");
+// dpd.zaregistrujPouzivatela("gyula2", "hesloAkeNeuhadnes", "gyula@gyula.hu");
 //        Pouzivatel p1 = new Pouzivatel();
 //        p1.setIdPouzivatel(2L);
-     //   knihy=dpd.rozcitaneKnihy(p1);
+//   knihy=dpd.rozcitaneKnihy(p1);
 //        System.out.println(knihy.get(0).getFormatKniha());
-        
+
     }
     
     

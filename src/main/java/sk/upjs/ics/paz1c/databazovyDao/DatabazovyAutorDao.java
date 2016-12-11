@@ -1,6 +1,7 @@
 package sk.upjs.ics.paz1c.databazovyDao;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,15 +58,17 @@ public class DatabazovyAutorDao implements AutorDao{
     }
     
     @Override
-    public Autor najdiAutora(String meno, String priezvisko, String stredne) {
-        String sql = "SELECT * FROM autor WHERE autor.alias_meno LIKE '%' ? '%' "
-                + "AND autor.alias_priezvisko LIKE '%' ? '%' AND autor.alias_stredne LIKE '%' ? '%'";
-        return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko, stredne);
-        
+    public Autor najdiAutora(String meno, String stredne, String priezvisko) {
+        if (priezvisko != null) {
+            String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? "
+                    + "AND autor.alias_priezvisko = ? AND autor.alias_stredne = ? ";
+            return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko, stredne);
+        } else {
+            return najdiAutora(meno, stredne);
+        }
     }
     
-    @Override
-    public Autor najdiAutora(String meno, String priezvisko) {
+    private Autor najdiAutora(String meno, String priezvisko) {
         String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? AND autor.alias_priezvisko = ?";
         return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko);
     }
@@ -135,6 +138,30 @@ public class DatabazovyAutorDao implements AutorDao{
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    /*
+    vracia slovnik autorov
+    */
+    @Override
+    public List<String> nacitajAutorov() {
+        List<Autor> autori = najdiAutorov();
+        List<String> mena = new ArrayList<>();
+        for (Autor autor : autori) {
+            if(autor.getStredneAutor() != null) {
+                mena.add(autor.getMenoAutor().toLowerCase() + " " + 
+                        autor.getStredneAutor().toLowerCase() + " " + autor.getPriezviskoAutor().toLowerCase());
+            } else {
+                mena.add(autor.getMenoAutor().toLowerCase() + " " +
+                        autor.getPriezviskoAutor().toLowerCase());
+            }
+        }
+        return mena;
+    }
+    
+    private List<Autor> najdiAutorov() {
+        String sql = "SELECT * FROM autor";
+        return jdbcTemplate.query(sql, mapovacAutorov);
     }
     
 }

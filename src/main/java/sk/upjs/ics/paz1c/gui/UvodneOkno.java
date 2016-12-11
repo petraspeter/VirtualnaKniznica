@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sk.upjs.ics.paz1c.gui;
 
 /**
@@ -10,14 +10,16 @@ package sk.upjs.ics.paz1c.gui;
  * @author raven
  */
 public class UvodneOkno extends javax.swing.JFrame {
-
+    
+    private static final KnihaTableModel knihaTableModel = new KnihaTableModel();
+    
     /**
      * Creates new form UvodneOkno
      */
     public UvodneOkno() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,15 +150,20 @@ public class UvodneOkno extends javax.swing.JFrame {
 
         tabulkaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TabulkaScrollPane.setViewportView(tabulkaTable);
 
         vyhladajComboBox.setEditable(true);
@@ -344,7 +351,7 @@ public class UvodneOkno extends javax.swing.JFrame {
     private void prihlasovacieMenoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prihlasovacieMenoTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_prihlasovacieMenoTextFieldActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -352,8 +359,8 @@ public class UvodneOkno extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -371,7 +378,7 @@ public class UvodneOkno extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UvodneOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -411,4 +418,4 @@ public class UvodneOkno extends javax.swing.JFrame {
     private javax.swing.JLabel vyhladavajPodlaLabel;
     private javax.swing.JRadioButton zanruRadioButton;
     // End of variables declaration//GEN-END:variables
-}
+        }
