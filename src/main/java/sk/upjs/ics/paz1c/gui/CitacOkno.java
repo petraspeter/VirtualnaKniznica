@@ -5,23 +5,12 @@
 */
 package sk.upjs.ics.paz1c.gui;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import sk.upjs.ics.paz1c.pomocneTriedy.ZobrazovacKnih;
-import sk.upjs.ics.paz1c.vynimky.KnihuSaNepodariloNacitatException;
-
 /**
  *
  * @author raven
  */
 public class CitacOkno extends javax.swing.JFrame {
-    
-//    private BufferedImage strany[];
-//    private int strana = 0;
-//    ZobrazovacKnih zobrazovacKnih = new ZobrazovacKnih();    
-//    String urlKnihy = "http://s.ics.upjs.sk/~ppetras/tri_musketyri_II-dumas.pdf";
+
     
     /**
      * Creates new form CitacOkno
@@ -39,29 +28,46 @@ public class CitacOkno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        zobrazovacScrollPane = new javax.swing.JScrollPane();
+        naZaciatokButton = new javax.swing.JButton();
+        predchadzajucaButton = new javax.swing.JButton();
+        oddialButton = new javax.swing.JButton();
         ulozButton = new javax.swing.JButton();
         zavriButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        priblizButton = new javax.swing.JButton();
+        nachadzajucaButton = new javax.swing.JButton();
+        naKoniecButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Virtuálna knižnica");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(950, 600));
 
-        jButton1.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowL.png")); // NOI18N
+        naZaciatokButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowsL.png")); // NOI18N
 
-        jButton2.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowsR.png")); // NOI18N
+        predchadzajucaButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowL.png")); // NOI18N
+
+        oddialButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/minus.png")); // NOI18N
 
         ulozButton.setText("Uložiť");
 
         zavriButton.setText("Zavrieť");
 
-        jButton3.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowsL.png")); // NOI18N
+        priblizButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/plus.png")); // NOI18N
+        priblizButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priblizButtonActionPerformed(evt);
+            }
+        });
 
-        jButton4.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowR.png")); // NOI18N
+        nachadzajucaButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowR.png")); // NOI18N
+
+        naKoniecButton.setIcon(new javax.swing.ImageIcon("/home/raven/NetBeansProjects/VLib/arrowsR.png")); // NOI18N
+        naKoniecButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                naKoniecButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,42 +76,56 @@ public class CitacOkno extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(zobrazovacScrollPane)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                        .addComponent(naZaciatokButton, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                        .addComponent(predchadzajucaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(oddialButton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(ulozButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(zavriButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                        .addComponent(priblizButton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+                        .addComponent(nachadzajucaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(naKoniecButton, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(zobrazovacScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ulozButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(priblizButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nachadzajucaButton)
+                            .addComponent(naKoniecButton)
+                            .addComponent(naZaciatokButton)
+                            .addComponent(predchadzajucaButton)
                             .addComponent(zavriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))
-                        .addGap(1, 1, 1))
-                    .addComponent(ulozButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(oddialButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(1, 1, 1)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void priblizButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priblizButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priblizButtonActionPerformed
+
+    private void naKoniecButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_naKoniecButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_naKoniecButtonMouseClicked
     
     /**
      * @param args the command line arguments
@@ -136,6 +156,34 @@ public class CitacOkno extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -147,12 +195,14 @@ public class CitacOkno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton naKoniecButton;
+    private javax.swing.JButton naZaciatokButton;
+    private javax.swing.JButton nachadzajucaButton;
+    private javax.swing.JButton oddialButton;
+    private javax.swing.JButton predchadzajucaButton;
+    private javax.swing.JButton priblizButton;
     private javax.swing.JButton ulozButton;
     private javax.swing.JButton zavriButton;
+    private javax.swing.JScrollPane zobrazovacScrollPane;
     // End of variables declaration//GEN-END:variables
 }

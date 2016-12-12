@@ -23,7 +23,6 @@ public class AutorRowMapper implements RowMapper<Autor>{
             autor.setStredneAutor(rs.getString("stredne_autor"));
             autor.setAliasStredne(rs.getString("alias_stredne"));
             autor.setPopisAutor(rs.getString("popis_autor"));
-            autor.setFotkaAutor(rs.getString("fotka_autor"));
             return autor;
         } catch (SQLException e) {
             throw new SQLException("Nie je možné namapovať autora!");

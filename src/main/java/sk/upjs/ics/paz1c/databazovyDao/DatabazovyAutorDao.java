@@ -92,8 +92,9 @@ public class DatabazovyAutorDao implements AutorDao{
         vlozAutoraZMapy.put("alias_meno", autor.getAliasMeno());
         vlozAutoraZMapy.put("priezvisko_autor", autor.getPriezviskoAutor());
         vlozAutoraZMapy.put("alias_priezvisko", autor.getAliasPriezvisko());
-        vlozAutoraZMapy.put("popis_autor", autor.getPopisAutor());
-        vlozAutoraZMapy.put("fotka_autor", autor.getFotkaAutor());
+        if(autor.getPopisAutor() != null) {
+            vlozAutoraZMapy.put("popis_autor", autor.getPopisAutor());
+        }
         if (autor.getStredneAutor() != null) {
             autor.setAliasStredne(vytvaracAliasov.vytvorAlias(autor.getStredneAutor()));
             vlozAutoraZMapy.put("stredne_autor", autor.getStredneAutor());
@@ -107,7 +108,7 @@ public class DatabazovyAutorDao implements AutorDao{
         String sql = "INSERT INTO autor SET meno_autor = :meno_autor, alias_meno= :alias_meno,"
                 + " priezvisko_autor = :priezvisko_autor, alias_priezvisko = :alias_priezvisko, "
                 + "stredne_autor = :stredne_autor, alias_stredne = :alias_stredne, "
-                + "popis_autor = :popis_autor, fotka_autor = :fotka_autor";
+                + "popis_autor = :popis_autor";
         namedParameterJdbcTemplate.update(sql, vlozAutoraZMapy);
     }
     
@@ -116,8 +117,7 @@ public class DatabazovyAutorDao implements AutorDao{
         Map<String, Object> vlozAutoraZMapy = new HashMap<>();
         vlozAutoraZMapy.put("id_autor", autor.getIdAutor());
         vlozAutoraZMapy.put("popis_autor", autor.getPopisAutor());
-        vlozAutoraZMapy.put("fotka_autor", autor.getFotkaAutor());
-        String sql = "UPDATE autor SET popis_autor = :popis_autor, fotka_autor = :fotka_autor WHERE "
+        String sql = "UPDATE autor SET popis_autor = :popis_autor WHERE "
                 + "id_autor = :id_autor";
         namedParameterJdbcTemplate.update(sql, vlozAutoraZMapy);
     }
@@ -149,7 +149,7 @@ public class DatabazovyAutorDao implements AutorDao{
         List<String> mena = new ArrayList<>();
         for (Autor autor : autori) {
             if(autor.getStredneAutor() != null) {
-                mena.add(autor.getMenoAutor().toLowerCase() + " " + 
+                mena.add(autor.getMenoAutor().toLowerCase() + " " +
                         autor.getStredneAutor().toLowerCase() + " " + autor.getPriezviskoAutor().toLowerCase());
             } else {
                 mena.add(autor.getMenoAutor().toLowerCase() + " " +

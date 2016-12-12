@@ -9,12 +9,12 @@ package sk.upjs.ics.paz1c.gui;
  *
  * @author raven
  */
-public class AdminOkno extends javax.swing.JFrame {
+public class PouzivatelUprav extends javax.swing.JFrame {
 
     /**
      * Creates new form UvodneOkno
      */
-    public AdminOkno() {
+    public PouzivatelUprav() {
         initComponents();
     }
 
@@ -34,17 +34,10 @@ public class AdminOkno extends javax.swing.JFrame {
         knihyTable = new javax.swing.JTable();
         vyhladajComboBox = new javax.swing.JComboBox<>();
         vyhladajButton = new javax.swing.JButton();
-        pridajAutoraButton = new javax.swing.JButton();
         OdhlasSaButton = new javax.swing.JButton();
         pridajKnihuButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        oAutoroviScrollPane = new javax.swing.JScrollPane();
-        popisAutoraTextArea = new javax.swing.JTextArea();
         oKniheScrollPane = new javax.swing.JScrollPane();
         popisKnihyTextArea = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
         vyhladavaciPanePanel = new javax.swing.JPanel();
         vyhladavajPodlaLabel = new javax.swing.JLabel();
         nazvuRadioButton = new javax.swing.JRadioButton();
@@ -53,7 +46,6 @@ public class AdminOkno extends javax.swing.JFrame {
         autoraRadioButton = new javax.swing.JRadioButton();
         jazykaRadioButton = new javax.swing.JRadioButton();
         formatuRadioButton1 = new javax.swing.JRadioButton();
-        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -90,8 +82,6 @@ public class AdminOkno extends javax.swing.JFrame {
         vyhladajButton.setMaximumSize(new java.awt.Dimension(90, 35));
         vyhladajButton.setMinimumSize(new java.awt.Dimension(90, 35));
 
-        pridajAutoraButton.setText("Pridaj autora");
-
         OdhlasSaButton.setText("Odhlás sa");
 
         pridajKnihuButton.setText("Pridaj knihu");
@@ -101,39 +91,11 @@ public class AdminOkno extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        oAutoroviScrollPane.setMaximumSize(new java.awt.Dimension(130, 130));
-
-        popisAutoraTextArea.setColumns(20);
-        popisAutoraTextArea.setRows(5);
-        popisAutoraTextArea.setText("O autorovi");
-        popisAutoraTextArea.setToolTipText("");
-        popisAutoraTextArea.setMaximumSize(new java.awt.Dimension(130, 75));
-        popisAutoraTextArea.setPreferredSize(new java.awt.Dimension(150, 75));
-        oAutoroviScrollPane.setViewportView(popisAutoraTextArea);
-
         popisKnihyTextArea.setColumns(20);
         popisKnihyTextArea.setLineWrap(true);
         popisKnihyTextArea.setRows(5);
         popisKnihyTextArea.setText("Popis knihy");
         oKniheScrollPane.setViewportView(popisKnihyTextArea);
-
-        jComboBox1.setEditable(true);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setText("Hľadaj");
 
         vyhladavajPodlaLabel.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
         vyhladavajPodlaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -203,8 +165,6 @@ public class AdminOkno extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton2.setText("Ulož zmey");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -216,61 +176,37 @@ public class AdminOkno extends javax.swing.JFrame {
                         .addComponent(vyhladajComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-                    .addComponent(TabulkaKnihScrollPane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                    .addComponent(TabulkaKnihScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(oKniheScrollPane)
-                        .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(pridajAutoraButton)
-                            .addGap(11, 11, 11)
-                            .addComponent(pridajKnihuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(OdhlasSaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(oKniheScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                            .addComponent(OdhlasSaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pridajKnihuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(vyhladajComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TabulkaKnihScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pridajKnihuButton)
-                            .addComponent(pridajAutoraButton))
-                        .addGap(18, 18, 18)
-                        .addComponent(oKniheScrollPane)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pridajKnihuButton)
+                .addGap(18, 18, 18)
+                .addComponent(oKniheScrollPane)
+                .addGap(18, 18, 18)
+                .addComponent(OdhlasSaButton))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(OdhlasSaButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(vyhladajComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TabulkaKnihScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -305,14 +241,18 @@ public class AdminOkno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelUprav.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelUprav.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelUprav.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelUprav.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -321,7 +261,7 @@ public class AdminOkno extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminOkno().setVisible(true);
+                new PouzivatelUprav().setVisible(true);
             }
         });
     }
@@ -330,37 +270,21 @@ public class AdminOkno extends javax.swing.JFrame {
     private javax.swing.JButton OdhlasSaButton;
     private javax.swing.JScrollPane TabulkaKnihScrollPane;
     private javax.swing.JRadioButton autoraRadioButton;
-    private javax.swing.JRadioButton autoraRadioButton1;
-    private javax.swing.JRadioButton formatuRadioButton;
     private javax.swing.JRadioButton formatuRadioButton1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDialog jDialog1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton jazykaRadioButton;
-    private javax.swing.JRadioButton jazykaRadioButton1;
     private javax.swing.JTable knihyTable;
     private javax.swing.JRadioButton nazvuRadioButton;
-    private javax.swing.JRadioButton nazvuRadioButton1;
-    private javax.swing.JScrollPane oAutoroviScrollPane;
     private javax.swing.JScrollPane oKniheScrollPane;
-    private javax.swing.JRadioButton oblubenostiRadioButton;
     private javax.swing.JRadioButton oblubenostiRadioButton1;
-    private javax.swing.JTextArea popisAutoraTextArea;
     private javax.swing.JTextArea popisKnihyTextArea;
-    private javax.swing.JButton pridajAutoraButton;
     private javax.swing.JButton pridajKnihuButton;
     private javax.swing.JButton vyhladajButton;
     private javax.swing.ButtonGroup vyhladajButtonGroup;
     private javax.swing.JComboBox<String> vyhladajComboBox;
     private javax.swing.JPanel vyhladavaciPanePanel;
-    private javax.swing.JPanel vyhladavaciPanePanel1;
     private javax.swing.ButtonGroup vyhladavajPodlaButtonGroup;
     private javax.swing.JLabel vyhladavajPodlaLabel;
-    private javax.swing.JLabel vyhladavajPodlaLabel1;
     private javax.swing.JRadioButton zanruRadioButton;
-    private javax.swing.JRadioButton zanruRadioButton1;
     // End of variables declaration//GEN-END:variables
 }

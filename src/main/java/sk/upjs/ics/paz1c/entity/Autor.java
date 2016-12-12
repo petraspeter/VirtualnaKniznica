@@ -1,6 +1,7 @@
 package sk.upjs.ics.paz1c.entity;
 
 import sk.upjs.ics.paz1c.pomocneTriedy.VytvaracAliasov;
+import sk.upjs.ics.paz1c.pomocneTriedy.CitacVstupu;
 
 /**
  *
@@ -27,12 +28,10 @@ public class Autor {
     
     private String popisAutor;
     
-    private String fotkaAutor;
-    
     public Autor() {
     }
     
-    public Autor(Long idAutor, String menoAutor,  String priezviskoAutor, String stredneAutor, String popisAutor, String fotkaAutor) {
+    public Autor(Long idAutor, String menoAutor,  String priezviskoAutor, String stredneAutor, String popisAutor) {
         VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.idAutor = idAutor;
         this.menoAutor = menoAutor;
@@ -42,7 +41,6 @@ public class Autor {
         this.stredneAutor = stredneAutor;
         this.aliasStredne = vytvaracAliasov.vytvorAlias(stredneAutor);
         this.popisAutor = popisAutor;
-        this.fotkaAutor = fotkaAutor;
     }
     
     public Autor(Long idAutor, String menoAutor, String priezviskoAutor, String stredneAutor) {
@@ -57,17 +55,44 @@ public class Autor {
     }
     
     public Autor(String menoAutor, String priezviskoAutor, String stredneAutor) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.menoAutor = menoAutor;
+        this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
         this.priezviskoAutor = priezviskoAutor;
+        this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(priezviskoAutor);
         this.stredneAutor = stredneAutor;
+        this.aliasStredne = vytvaracAliasov.vytvorAlias(stredneAutor);
     }
     
-    public Autor(String menoAutor, String priezviskoAutor, String stredneAutor, String popisAutor, String fotkaAutor) {
+    public Autor(String menoAutor, String priezviskoAutor, String stredneAutor, String popisAutor) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.menoAutor = menoAutor;
+        this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
         this.priezviskoAutor = priezviskoAutor;
+        this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(priezviskoAutor);
         this.stredneAutor = stredneAutor;
+        this.aliasStredne = vytvaracAliasov.vytvorAlias(stredneAutor);
         this.popisAutor = popisAutor;
-        this.fotkaAutor = fotkaAutor;
+    }
+    
+    public Autor(String meno, String popis) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
+        CitacVstupu citacVstupu = new CitacVstupu();
+        String[] vstup = citacVstupu.vratPodretazceZoVstupu(meno);
+        if(vstup.length == 2) {
+            this.menoAutor = vstup[0];
+            this.aliasMeno = vytvaracAliasov.vytvorAlias(this.menoAutor);
+            this.priezviskoAutor = vstup[1];
+            this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(this.priezviskoAutor);
+        } else {
+            this.menoAutor = vstup[0];
+            this.aliasMeno = vytvaracAliasov.vytvorAlias(this.menoAutor);
+            this.priezviskoAutor = vstup[2];
+            this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(this.priezviskoAutor);
+            this.stredneAutor = vstup[1];
+            this.aliasStredne = vytvaracAliasov.vytvorAlias(this.stredneAutor);
+        }
+        
     }
     
     public Long getIdAutor() {
@@ -132,14 +157,6 @@ public class Autor {
     
     public void setPopisAutor(String popisAutor) {
         this.popisAutor = popisAutor;
-    }
-    
-    public String getFotkaAutor() {
-        return fotkaAutor;
-    }
-    
-    public void setFotkaAutor(String fotkaAutor) {
-        this.fotkaAutor = fotkaAutor;
     }
     
 }

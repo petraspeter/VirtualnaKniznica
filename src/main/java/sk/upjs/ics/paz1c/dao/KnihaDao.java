@@ -24,6 +24,8 @@ public interface KnihaDao {
     List<String> nacitajKnihy();
     
     public String vratZaner(long idZanru);
+    
+    public void upravKnihy(List<Kniha> knihy);
 
     public void vymazKnihu(Long id);
 

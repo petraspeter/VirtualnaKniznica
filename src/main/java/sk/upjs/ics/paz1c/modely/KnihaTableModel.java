@@ -1,4 +1,4 @@
-package sk.upjs.ics.paz1c.gui;
+package sk.upjs.ics.paz1c.modely;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +15,17 @@ import sk.upjs.ics.paz1c.tovaren.MagicFactory;
  */
 public class KnihaTableModel extends AbstractTableModel {
     
-    private static final int pocetStlpcov = 4;
-    
-    private static final String[] nazvyStlpocv = {"Názov", "Žáner", "Jazyk", "Formát"};
-    
-    private static final Class[] typyStlpcov = {String.class, String.class, String.class, String.class};
     
     private static final AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
     
     private static final KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
     
+    private static final int pocetStlpcov = 4;
+    
+    private static final String[] nazvyStlpocv = {"Názov", "Žáner", "Jazyk", "Formát"};
+    
+    private static final Class[] typyStlpcov = {String.class, String.class, String.class, String.class};
+        
     Autor autor = new Autor();
     
     private List<Kniha> knihy = new ArrayList<>();
@@ -76,25 +77,27 @@ public class KnihaTableModel extends AbstractTableModel {
     nacitavanie knihy podla vstupu
     */
     public void naciatajPodlaNazvu(String nazov) {
+        knihy.clear();
         knihy = knihaDao.najdiPodlaNazvu(nazov);
         fireTableDataChanged();
     }
     
     public void naciatajPodlaZanru(String zaner) {
+        knihy.clear();
         knihy = knihaDao.najdiPodlaNazvu(zaner);
         fireTableDataChanged();
     }
     
     public void naciatajPodlaFormatu(String format) {
+        knihy.clear();
         knihy = knihaDao.najdiPodlaNazvu(format);
         fireTableDataChanged();
     }
     
     public void naciatajPodlaJazyka(String jazyk) {
+        knihy.clear();
         knihy = knihaDao.najdiPodlaNazvu(jazyk);
         fireTableDataChanged();
     }
-    
-    
-    
+        
 }

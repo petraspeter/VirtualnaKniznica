@@ -158,5 +158,12 @@ public class DatabazovyKnihaDao implements KnihaDao{
         }
         return knihy;
     }
+
+    @Override
+    public void upravKnihy(List<Kniha> knihy) {
+        for (Kniha kniha : knihy) {
+            upravKnihu(kniha);
+        }
+    }
     
 }

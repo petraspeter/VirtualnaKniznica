@@ -27,6 +27,14 @@ public enum MagicFactory {
     
     private AutorDao autorDao;
     
+    
+    public JdbcTemplate jdbcTemplate() {
+        if (this.jdbcTemplate == null) {
+            this.jdbcTemplate = new JdbcTemplate(dataSource());
+        }
+        return this.jdbcTemplate;
+    }
+    
     public KnihaDao knihaDao() {
         if(this.knihaDao == null) {
             this.knihaDao = new DatabazovyKnihaDao(jdbcTemplate);
@@ -48,20 +56,17 @@ public enum MagicFactory {
         return this.autorDao;
     }
     
-    public JdbcTemplate getJdbcTemplate() {
-        if (jdbcTemplate == null) {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            Properties nastavenia = getProperties();
-//            dataSource.setUrl(nastavenia.getProperty("urlDatabazy"));
-//            dataSource.setUser(nastavenia.getProperty("pouzivatel"));
-//            dataSource.setPassword(nastavenia.getProperty("heslo"));
-            dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
-            dataSource.setUser("vlibRoot");
-            dataSource.setPassword("toor");
-            
-            jdbcTemplate = new JdbcTemplate(dataSource);
-        }
-        return jdbcTemplate;
+    private MysqlDataSource dataSource() {
+        MysqlDataSource dataSource = new MysqlDataSource();
+        Properties nastavenia = getProperties();
+        dataSource.setUrl(nastavenia.getProperty("urlDatabazy"));
+        dataSource.setUser(nastavenia.getProperty("pouzivatel"));
+        dataSource.setPassword(nastavenia.getProperty("heslo"));
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
+//        dataSource.setUser("vlibRoot");
+//        dataSource.setPassword("toor");
+return dataSource;
+
     }
     
     private Properties getProperties() {

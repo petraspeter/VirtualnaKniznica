@@ -5,13 +5,23 @@
 */
 package sk.upjs.ics.paz1c.gui;
 
+import sk.upjs.ics.paz1c.dao.AutorDao;
+import sk.upjs.ics.paz1c.dao.KnihaDao;
+import sk.upjs.ics.paz1c.modely.KnihaTableModel;
+import sk.upjs.ics.paz1c.tovaren.MagicFactory;
+
 /**
  *
  * @author raven
  */
 public class UvodneOkno extends javax.swing.JFrame {
-    
+        
     private static final KnihaTableModel knihaTableModel = new KnihaTableModel();
+    
+    
+    private static final AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
+    
+    private static final KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
     
     /**
      * Creates new form UvodneOkno
@@ -148,22 +158,7 @@ public class UvodneOkno extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabulkaTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null}
-            },
-            new String [] {
-                "Title 1"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tabulkaTable.setModel(knihaTableModel);
         TabulkaScrollPane.setViewportView(tabulkaTable);
 
         vyhladajComboBox.setEditable(true);
