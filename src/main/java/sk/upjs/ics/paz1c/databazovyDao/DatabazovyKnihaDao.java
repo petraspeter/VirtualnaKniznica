@@ -69,14 +69,20 @@ public class DatabazovyKnihaDao implements KnihaDao{
     
     @Override
     public void vymazKnihu(Long id) {
-        String sql = "DELETE FROM kniha WHERE id = ?";
+        String sql = "DELETE FROM kniha WHERE id_kniha = ?";
         jdbcTemplate.update(sql, id);
     }
     
     @Override
     public void vymazKnihu(Kniha kniha) {
-        String sql = "DELETE FROM kniha WHERE id = ?";
+        String sql = "DELETE FROM kniha WHERE id_kniha = ?";
         jdbcTemplate.update(sql, kniha.getIdKniha());
+    }
+    
+    @Override
+    public Kniha najdiKnihu(Long id) {
+        String sql = "SELECT * FROM kniha WHERE id_kniha = ?";
+        return jdbcTemplate.queryForObject(sql, mapovacKnih, id);
     }
     
     @Override
@@ -143,8 +149,8 @@ public class DatabazovyKnihaDao implements KnihaDao{
     public List<String> nacitajZanre() {
         String sql = "SELECT nazov_zaner from zaner";
         List<String> zanre = (List<String>) jdbcTemplate.queryForList(sql, String.class);
-        for (String string : zanre) {
-            string.toLowerCase();
+        for (int i = 0; i < zanre.size(); i++) {
+            zanre.set(i, zanre.get(i).toLowerCase());
         }
         return zanre;
     }
@@ -153,17 +159,27 @@ public class DatabazovyKnihaDao implements KnihaDao{
     public List<String> nacitajKnihy() {
         String sql = "SELECT nazov_kniha from kniha";
         List<String> knihy = (List<String>) jdbcTemplate.queryForList(sql, String.class);
-        for (String string : knihy) {
-            string.toLowerCase();
+        for (int i = 0; i < knihy.size(); i++) {
+            knihy.set(i, knihy.get(i).toLowerCase());
         }
         return knihy;
     }
-
+    
     @Override
     public void upravKnihy(List<Kniha> knihy) {
         for (Kniha kniha : knihy) {
             upravKnihu(kniha);
         }
+    }
+    
+    @Override
+    public Kniha najdiKnihu(String nazovKnihy) {
+//        String sql = "SELECT * FROM kniha  WHERE nazov_kniha = ?";
+//        return jdbcTemplate.queryForObject(sql, mapovacKnih, nazovKnihy);
+        
+        
+        String sql = "SELECT * FROM kniha WHERE nazov_kniha = ?";
+        return jdbcTemplate.queryForObject(sql, mapovacKnih, nazovKnihy);
     }
     
 }

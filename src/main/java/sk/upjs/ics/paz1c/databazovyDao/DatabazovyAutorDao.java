@@ -45,9 +45,24 @@ public class DatabazovyAutorDao implements AutorDao{
     }
     
     private List<Kniha> najdiKnihuPodlaAutora(String meno, String priezvisko) {
-        String sql = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
-                + "autor.alias_meno LIKE '%' ? '%' AND autor.alias_priezvisko LIKE '%' ? '%'";
-        return jdbcTemplate.query(sql, mapovacKnih, meno, priezvisko);
+        if (priezvisko != null) {
+            String sql = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
+                    + "autor.alias_meno LIKE '%' ? '%' AND autor.alias_priezvisko LIKE '%' ? '%'";
+            return jdbcTemplate.query(sql, mapovacKnih, meno, priezvisko);
+        } else {
+            return najdiKnihuPodlaAutora(meno);
+        }
+    }
+    
+    private List<Kniha> najdiKnihuPodlaAutora(String meno) {
+        String sql1 = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
+                + "autor.alias_meno LIKE '%' ? '%'";
+        List<Kniha> knihy = jdbcTemplate.query(sql1, mapovacKnih, meno);
+        String sql2 = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
+                + "autor.alias_priezvisko LIKE '%' ? '%'";
+        List<Kniha> knihy2 = (jdbcTemplate.query(sql2, mapovacKnih, meno));
+        knihy.addAll(knihy2);
+        return knihy;
     }
     
     @Override
@@ -69,8 +84,17 @@ public class DatabazovyAutorDao implements AutorDao{
     }
     
     private Autor najdiAutora(String meno, String priezvisko) {
-        String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? AND autor.alias_priezvisko = ?";
-        return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko);
+        if (priezvisko != null) {
+            String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? AND autor.alias_priezvisko = ?";
+            return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko);
+        } else {
+            return najdiAutora(meno);
+        }
+    }
+    
+    private Autor najdiAutora(String meno) {
+        String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? OR autor.alias_priezvisko = ?";
+        return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno);
     }
     
     @Override

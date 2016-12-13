@@ -2,21 +2,6 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Container class="javax.swing.JDialog" name="jDialog1">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Component class="javax.swing.ButtonGroup" name="vyhladavajPodlaButtonGroup">
     </Component>
   </NonVisualComponents>
@@ -87,7 +72,7 @@
                           <Component id="vyhladajButton" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="TabulkaScrollPane" pref="630" max="32767" attributes="0"/>
+                      <Component id="TabulkaScrollPane" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -179,6 +164,7 @@
             <Property name="text" type="java.lang.String" value="N&#xe1;zvu"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nazvuRadioButtonMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nazvuRadioButtonActionPerformed"/>
           </Events>
         </Component>
@@ -189,6 +175,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x17d;&#xe1;nru"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="zanruRadioButtonMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="oblubenostiRadioButton">
           <Properties>
@@ -197,6 +186,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Ob&#x13e;&#xfa;benosti"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="oblubenostiRadioButtonMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="autoraRadioButton">
           <Properties>
@@ -206,6 +198,7 @@
             <Property name="text" type="java.lang.String" value="Autora"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="autoraRadioButtonMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoraRadioButtonActionPerformed"/>
           </Events>
         </Component>
@@ -216,6 +209,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Jazyka"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jazykaRadioButtonMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="formatuRadioButton">
           <Properties>
@@ -224,6 +220,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Form&#xe1;tu"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="formatuRadioButtonMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -239,7 +238,11 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="knihaTableModel" type="code"/>
             </Property>
+            <Property name="autoResizeMode" type="int" value="4"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabulkaTableMouseClicked"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()"/>
           </AuxValues>
@@ -249,16 +252,9 @@
     <Component class="javax.swing.JComboBox" name="vyhladajComboBox">
       <Properties>
         <Property name="editable" type="boolean" value="true"/>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new KombacNasepkavac(new VyhladavatelnyRetazec(nazvy));"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
@@ -272,6 +268,9 @@
           <Dimension value="[90, 35]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="vyhladajButtonMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="prihlasovaciPanel">
 
@@ -327,12 +326,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Prihl&#xe1;s sa"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="prihlasButtonMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="registrujButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Registruj sa"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registrujButtonMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registrujButtonActionPerformed"/>
           </Events>
         </Component>
@@ -349,16 +352,12 @@
                       <Component id="oKniheScrollPane" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="oAutoroviScrollPane" max="32767" attributes="0"/>
+                              <Component id="oAutoroviScrollPane" pref="257" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="menoAutoraLabel" pref="135" max="32767" attributes="0"/>
-                                      <Component id="pocetStranLabel" max="32767" attributes="0"/>
-                                      <Component id="formatKnihyLabel" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="fotkaAutoraLabel" min="-2" pref="116" max="-2" attributes="0"/>
+                                  <Component id="pocetStranLabel" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="menoAutoraLabel" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       </Group>
@@ -371,20 +370,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="menoAutoraLabel" min="-2" pref="35" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="pocetStranLabel" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="formatKnihyLabel" min="-2" pref="31" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="fotkaAutoraLabel" min="-2" pref="130" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="menoAutoraLabel" min="-2" pref="35" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Component id="oAutoroviScrollPane" pref="115" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Component id="oKniheScrollPane" pref="123" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="oAutoroviScrollPane" min="-2" pref="105" max="-2" attributes="0"/>
+                  <Component id="pocetStranLabel" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="oKniheScrollPane" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -407,11 +400,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="fotkaAutoraLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Fotka autora"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="menoAutoraLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Meno autora"/>
@@ -451,17 +439,15 @@
             <Property name="text" type="java.lang.String" value="Po&#x10d;et str&#xe1;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="formatKnihyLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Form&#xe1;t knihy"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="citajButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x10c;&#xed;taj knihu"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="citajButtonMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

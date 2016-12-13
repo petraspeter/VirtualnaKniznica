@@ -1,15 +1,10 @@
 package sk.upjs.ics.paz1c.gui;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,13 +22,15 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 public class CitajKnihu extends javax.swing.JFrame {
     
     private int aktualnaStrana = 0;
-    private List<BufferedImage> strany  = new ArrayList<>();
+    private int pocetStran = 0;
     private String urlAdresa;
     private int nacitajStranu;
+    private Long idPouzivatela;
     
-    public CitajKnihu(String urlAdresa, int nacitajStranu) {
+    public CitajKnihu(String urlAdresa, int nacitajStranu, Long pouzivatel) {
         this.urlAdresa = urlAdresa;
         this.nacitajStranu = nacitajStranu;
+        this.idPouzivatela = pouzivatel;
         initComponents();
     }
     
@@ -54,9 +51,9 @@ public class CitajKnihu extends javax.swing.JFrame {
         nachadzajucaButton = new javax.swing.JButton();
         naKoniecButton = new javax.swing.JButton();
         
-       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-       
-       
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        
+        
         setTitle("Virtuálna knižnica");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(950, 600));
@@ -132,12 +129,10 @@ public class CitajKnihu extends javax.swing.JFrame {
         /*
         zobrazime prvu stranu pdf
         */
-        ImageIcon strana = new ImageIcon("temp/img5.jpg");
+        ImageIcon strana = new ImageIcon("temp/img"+nacitajStranu+".jpg");
         JLabel jlabel = new JLabel(strana);
         JViewport view = new JViewport();
         view.setView(jlabel);
-//        view.imageUpdate(strany[nacitajStranu], 30, strany[nacitajStranu].getMinX(),
-//                strany[nacitajStranu].getMinY(), strany[nacitajStranu].getHeight()*4, strany[nacitajStranu].getWidth()*4);
         zobrazovacScrollPane.setViewportView(view);
         
         pack();
@@ -148,7 +143,7 @@ public class CitajKnihu extends javax.swing.JFrame {
     }
     
     private void naKoniecButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        nacitajStranu = strany.size()-1;
+        nacitajStranu = pocetStran-1;
         refresh();
     }
     
@@ -172,7 +167,7 @@ public class CitajKnihu extends javax.swing.JFrame {
             
             @Override
             public void run() {
-                new CitajKnihu("http://s.ics.upjs.sk/~ppetras/paz1c/lesk_a_bida_kurtizan.pdf", 5).setVisible(true);
+                new CitajKnihu("http://s.ics.upjs.sk/~ppetras/paz1c/Zakl%c3%adna%c4%8d%202%20-%20Krev%20za%20krev.pdf", 0, 5L).setVisible(true);
                 
             }
         });
@@ -200,14 +195,13 @@ public class CitajKnihu extends javax.swing.JFrame {
         long s = System.currentTimeMillis();
         InputStream input = new URL(urlAdresa).openStream();
         PDDocument pdfDokument = PDDocument.load(input);
-        
         /*
         synchronized blok
         */
         pdfDokument.getClass();
         if (!pdfDokument.isEncrypted()) {
             
-            int pocetStran = pdfDokument.getNumberOfPages();
+            pocetStran = pdfDokument.getNumberOfPages();
             PDFRenderer pdfRender = new PDFRenderer(pdfDokument);
             for (int i = 0; i < pocetStran; i++) {
                 /*
@@ -215,13 +209,11 @@ public class CitajKnihu extends javax.swing.JFrame {
                 */
                 File outputFile = new File("temp/img"+i+".jpg");
                 ImageIO.write(pdfRender.renderImageWithDPI(i, 150), "jpg", outputFile);
-              //  strany.add(i, pdfRender.renderImageWithDPI(i, 150));
             }
         } else {
             System.err.println("Subor je zaheslovany!");
         }
         pdfDokument.close();
-        
         System.out.println((System.currentTimeMillis() - s)/1000.0 + "s");
     }
     

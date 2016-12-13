@@ -25,7 +25,11 @@ public class KombacNasepkavac extends JComboBox{
     pouzity zdroj: http://www.algosome.com/articles/java-jcombobox-autocomplete.html
     */
     
-    private final Vyhladavatelny<String,String> vyhladavatelny;
+    private Vyhladavatelny<String,String> vyhladavatelny;
+    
+    public void setVyhladavatelny(Vyhladavatelny<String, String> vyhladavatelny) {
+        this.vyhladavatelny = vyhladavatelny;
+    }
     
     public KombacNasepkavac(Vyhladavatelny<String,String> vstup){
         super();
@@ -76,7 +80,7 @@ public class KombacNasepkavac extends JComboBox{
                             
                             setEditable(true);
                             setPopupVisible(true);
-                            textovyKomponent.requestFocus(); 
+                            textovyKomponent.requestFocus();
                         }
                     });
                 }
@@ -99,6 +103,8 @@ public class KombacNasepkavac extends JComboBox{
         }
         
     }
+    
+    
     public static void main(String[] args) throws Exception{
         SwingUtilities.invokeAndWait(new Runnable(){
             
@@ -114,8 +120,12 @@ public class KombacNasepkavac extends JComboBox{
                 slovnik.add("caprecious");
                 slovnik.add("catepult");
                 
+                List<String> s = new ArrayList<>();
+                s.add("bbb");
+                
                 VyhladavatelnyRetazec vyhladavatelniu = new VyhladavatelnyRetazec(slovnik);
                 KombacNasepkavac kombacik = new KombacNasepkavac(vyhladavatelniu);
+                kombacik.setVyhladavatelny(new VyhladavatelnyRetazec(s));
                 JFrame frame = new JFrame("Kombáčik");
                 frame.add(kombacik);
                 frame.pack();

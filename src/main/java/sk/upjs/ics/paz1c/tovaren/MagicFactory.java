@@ -29,29 +29,29 @@ public enum MagicFactory {
     
     
     public JdbcTemplate jdbcTemplate() {
-        if (this.jdbcTemplate == null) {
-            this.jdbcTemplate = new JdbcTemplate(dataSource());
+        if(this.jdbcTemplate == null) {
+            this.jdbcTemplate = new JdbcTemplate(dataSource());                
         }
         return this.jdbcTemplate;
-    }
+    } 
     
     public KnihaDao knihaDao() {
         if(this.knihaDao == null) {
-            this.knihaDao = new DatabazovyKnihaDao(jdbcTemplate);
+            this.knihaDao = new DatabazovyKnihaDao(jdbcTemplate());
         }
         return this.knihaDao;
     }
     
     public PouzivatelDao pouzivatelDao() {
         if(this.pouzivatelDao == null) {
-            this.pouzivatelDao = new DatabazovyPouzivatelDao(jdbcTemplate);
+            this.pouzivatelDao = new DatabazovyPouzivatelDao(jdbcTemplate());
         }
         return this.pouzivatelDao;
     }
     
     public AutorDao  autorDao() {
         if(this.autorDao == null) {
-            this.autorDao = new DatabazovyAutorDao(jdbcTemplate);
+            this.autorDao = new DatabazovyAutorDao(jdbcTemplate());
         }
         return this.autorDao;
     }
@@ -59,12 +59,12 @@ public enum MagicFactory {
     private MysqlDataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         Properties nastavenia = getProperties();
-        dataSource.setUrl(nastavenia.getProperty("urlDatabazy"));
-        dataSource.setUser(nastavenia.getProperty("pouzivatel"));
-        dataSource.setPassword(nastavenia.getProperty("heslo"));
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
-//        dataSource.setUser("vlibRoot");
-//        dataSource.setPassword("toor");
+//        dataSource.setUrl(nastavenia.getProperty("urlDatabazy"));
+//        dataSource.setUser(nastavenia.getProperty("pouzivatel"));
+//        dataSource.setPassword(nastavenia.getProperty("heslo"));
+        dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
+        dataSource.setUser("vlibRoot");
+        dataSource.setPassword("toor");
 return dataSource;
 
     }

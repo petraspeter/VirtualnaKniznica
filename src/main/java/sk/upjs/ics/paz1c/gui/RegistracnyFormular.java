@@ -1,23 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sk.upjs.ics.paz1c.gui;
+
+import sk.upjs.ics.paz1c.dao.PouzivatelDao;
+import sk.upjs.ics.paz1c.tovaren.MagicFactory;
 
 /**
  *
  * @author raven
  */
 public class RegistracnyFormular extends javax.swing.JFrame {
-
+    
+    private PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
+    
     /**
      * Creates new form RegistracnyFormular
      */
     public RegistracnyFormular() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +43,8 @@ public class RegistracnyFormular extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registračný formulár - Virtuálna knižnica");
         setAlwaysOnTop(true);
+        setAutoRequestFocus(false);
+        setFocusTraversalPolicyProvider(true);
         setResizable(false);
 
         menoTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +60,11 @@ public class RegistracnyFormular extends javax.swing.JFrame {
         });
 
         registrujButton.setText("Registruj sa");
+        registrujButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registrujButtonMouseClicked(evt);
+            }
+        });
 
         menoLabel.setText("Meno:");
 
@@ -112,6 +124,11 @@ public class RegistracnyFormular extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menoTextFieldActionPerformed
 
+    private void registrujButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrujButtonMouseClicked
+        pouzivatelDao.zaregistrujPouzivatela(menoTextField.getText(), hesloPasswordField.getText(),  emailTextField.getText());
+        this.dispose();
+    }//GEN-LAST:event_registrujButtonMouseClicked
+    
     /**
      * @param args the command line arguments
      */
@@ -119,8 +136,8 @@ public class RegistracnyFormular extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -138,7 +155,7 @@ public class RegistracnyFormular extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RegistracnyFormular.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

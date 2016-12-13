@@ -23,6 +23,10 @@ public interface KnihaDao {
     
     List<String> nacitajKnihy();
     
+    public Kniha najdiKnihu(String nazovKnihy);
+    
+    public Kniha najdiKnihu(Long id);
+    
     public String vratZaner(long idZanru);
     
     public void upravKnihy(List<Kniha> knihy);
