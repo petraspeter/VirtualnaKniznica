@@ -20,8 +20,10 @@ public class AutorRowMapper implements RowMapper<Autor>{
             autor.setAliasMeno(rs.getString("alias_meno"));
             autor.setPriezviskoAutor(rs.getString("priezvisko_autor"));
             autor.setAliasPriezvisko(rs.getString("alias_priezvisko"));
-            autor.setStredneAutor(rs.getString("stredne_autor"));
-            autor.setAliasStredne(rs.getString("alias_stredne"));
+            if(autor.getStredneAutor() != null) {
+                autor.setStredneAutor(rs.getString("stredne_autor"));
+                autor.setAliasStredne(rs.getString("alias_stredne"));
+            }
             autor.setPopisAutor(rs.getString("popis_autor"));
             return autor;
         } catch (SQLException e) {

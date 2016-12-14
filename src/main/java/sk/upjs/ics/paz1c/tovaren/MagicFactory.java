@@ -30,10 +30,10 @@ public enum MagicFactory {
     
     public JdbcTemplate jdbcTemplate() {
         if(this.jdbcTemplate == null) {
-            this.jdbcTemplate = new JdbcTemplate(dataSource());                
+            this.jdbcTemplate = new JdbcTemplate(dataSource());
         }
         return this.jdbcTemplate;
-    } 
+    }
     
     public KnihaDao knihaDao() {
         if(this.knihaDao == null) {

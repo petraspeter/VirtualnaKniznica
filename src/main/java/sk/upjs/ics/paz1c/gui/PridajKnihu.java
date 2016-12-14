@@ -94,7 +94,6 @@ public class PridajKnihu extends javax.swing.JDialog {
         setMaximumSize(new java.awt.Dimension(650, 550));
         setMinimumSize(new java.awt.Dimension(650, 550));
         setPreferredSize(new java.awt.Dimension(650, 500));
-        setResizable(false);
         setSize(new java.awt.Dimension(600, 480));
 
         nazovLabel.setText("Názov:");
@@ -146,7 +145,7 @@ public class PridajKnihu extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(popisAutorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -154,15 +153,15 @@ public class PridajKnihu extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(menoAutorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(menoAutorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(menoAutorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(priezviskoAutorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(priezviskoAutorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(stredneAutorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(stredneAutorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(popisKnihyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -182,7 +181,7 @@ public class PridajKnihu extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(nazovLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nazovComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(nazovComboBox, 0, 1, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(urlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,7 +197,7 @@ public class PridajKnihu extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(204, 204, 204)
                         .addComponent(pridajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,7 +246,7 @@ public class PridajKnihu extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(popisAutorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(popisAutoraTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(pridajButton)
                 .addContainerGap())
         );
@@ -262,12 +261,22 @@ public class PridajKnihu extends javax.swing.JDialog {
     private void pridajButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pridajButtonMouseClicked
         Autor autor;
         Long idZaner = 0L;
-        try {
-            autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
-        } catch (Exception e){
-            autor = new Autor(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText(), popisAutoraTextField.getText());
-            autorDao.pridajAutora(autor);
-            autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+        if(stredneAutorTextField.getText().length() > 1) {
+            try {
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+            } catch (Exception e){
+                autor = new Autor(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText(), popisAutoraTextField.getText());
+                autorDao.pridajAutora(autor);
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+            }
+        } else {
+             try {
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null);
+            } catch (Exception e){
+                autor = new Autor(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null, popisAutoraTextField.getText());
+                autorDao.pridajAutora(autor);
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+            }
         }
         try {
             idZaner = nacitajIdZanru(zanerComboBox.getEditor().getItem().toString());
@@ -275,10 +284,10 @@ public class PridajKnihu extends javax.swing.JDialog {
             knihaDao.pridajZaner(zanerComboBox.getEditor().getItem().toString());
             idZaner = nacitajIdZanru(zanerComboBox.getEditor().getItem().toString());
         }
-        
+        long l = Long.parseLong(pocetStranTextField.getText());
         Kniha kniha = new Kniha(nazovComboBox.getEditor().getItem().toString(), autor.getIdAutor(),
                 urlTextField.getText(), idPouzivatela, formatComboBox.getEditor().getItem().toString(), idZaner,
-                jazykTextField.getText(), jazyk2TextField.getText(),  Long.parseLong(pocetStranTextField.getText()), popisKnihyTextField.getText());
+                jazykTextField.getText(), jazyk2TextField.getText(), l, popisKnihyTextField.getText());
         knihaDao.pridajKnihu(kniha);
         dispose();
     }//GEN-LAST:event_pridajButtonMouseClicked

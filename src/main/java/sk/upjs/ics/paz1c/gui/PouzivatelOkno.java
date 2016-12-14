@@ -335,6 +335,7 @@ public class PouzivatelOkno extends javax.swing.JFrame {
         );
         
         popisKnihyTextArea.setEditable(false);
+        popisKnihyTextArea.setLineWrap(true);
         popisKnihyTextArea.setColumns(20);
         popisKnihyTextArea.setRows(5);
         popisKnihyTextArea.setText("Popis knihy");
@@ -346,6 +347,7 @@ public class PouzivatelOkno extends javax.swing.JFrame {
         oAutoroviScrollPane.setMaximumSize(new java.awt.Dimension(130, 130));
         
         popisAutoraTextArea.setEditable(false);
+        popisAutoraTextArea.setLineWrap(true);
         popisAutoraTextArea.setColumns(20);
         popisAutoraTextArea.setRows(5);
         popisAutoraTextArea.setText("O autorovi");

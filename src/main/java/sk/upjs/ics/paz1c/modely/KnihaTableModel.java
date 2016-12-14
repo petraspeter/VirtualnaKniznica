@@ -118,7 +118,7 @@ public class KnihaTableModel extends AbstractTableModel {
         if(vstup.length > 2) {
             knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], vstup[1], vstup[2]);
         } else {
-            if(vstup.length == 1) {
+            if(vstup.length == 2) {
                 knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], null, null);
             } else {
                 knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], null, vstup[1]);

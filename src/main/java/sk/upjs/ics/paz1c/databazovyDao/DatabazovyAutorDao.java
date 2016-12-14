@@ -59,10 +59,7 @@ public class DatabazovyAutorDao implements AutorDao{
         String sql1 = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
                 + "autor.alias_meno LIKE '%' ? '%'";
         List<Kniha> knihy = jdbcTemplate.query(sql1, mapovacKnih, meno);
-        String sql2 = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
-                + "autor.alias_priezvisko LIKE '%' ? '%'";
-        List<Kniha> knihy2 = (jdbcTemplate.query(sql2, mapovacKnih, meno));
-        knihy.addAll(knihy2);
+        
         return knihy;
     }
     
@@ -196,7 +193,7 @@ public class DatabazovyAutorDao implements AutorDao{
         if(vstup.length > 2) {
             return najdiAutora(vstup[0], vstup[1], vstup[2]);
         } else {
-            if(vstup.length == 1) {
+            if(vstup.length == 2) {
                 return najdiAutora(vstup[0], null, null);
             } else {
                 return najdiAutora(vstup[0], null, vstup[1]);

@@ -33,9 +33,7 @@ public class UvodneOkno extends javax.swing.JFrame {
     private AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
     
     private KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
-    
-//    private PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
-    
+        
     private List<String> nazvy = knihaDao.nacitajKnihy();
     
     private List<String> autori;
@@ -308,6 +306,7 @@ public class UvodneOkno extends javax.swing.JFrame {
         );
         
         popisKnihyTextArea.setEditable(false);
+        popisKnihyTextArea.setLineWrap(true);
         popisKnihyTextArea.setColumns(20);
         popisKnihyTextArea.setRows(5);
         popisKnihyTextArea.setText("Popis knihy");
@@ -318,7 +317,8 @@ public class UvodneOkno extends javax.swing.JFrame {
         
         oAutoroviScrollPane.setMaximumSize(new java.awt.Dimension(130, 130));
         
-        popisAutoraTextArea.setEditable(false);
+        popisAutoraTextArea.setEditable(false);        
+        popisAutoraTextArea.setLineWrap(true);
         popisAutoraTextArea.setColumns(20);
         popisAutoraTextArea.setRows(5);
         popisAutoraTextArea.setText("O autorovi");

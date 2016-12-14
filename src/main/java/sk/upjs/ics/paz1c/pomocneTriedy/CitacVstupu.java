@@ -23,5 +23,5 @@ public class CitacVstupu {
         String[] vysledok = vstup.split("\\W|_");
         return vysledok;
     }
-        
+            
 }
