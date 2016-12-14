@@ -510,7 +510,10 @@ public class UvodneOkno extends javax.swing.JFrame {
     
     private void citajButtonMouseClicked(java.awt.event.MouseEvent evt) {
         if (kniha.getUrlKniha().length() > 4l) {
-            new CitacOkno(0, -1L, kniha).setVisible(true);
+            if(kniha.getFormatKniha().equals("pdf") || 
+                    kniha.getFormatKniha().equals("PDF")) {
+                new CitacOkno(0, -1L, kniha).setVisible(true);
+            }
         }
     }
     

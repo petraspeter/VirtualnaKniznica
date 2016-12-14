@@ -22,8 +22,7 @@ public class DatabazovyKnihaDao implements KnihaDao{
     ***** vytvorit classu pre stringy dopytov?
     */
     
-    private MysqlDataSource dataSource;
-    private JdbcTemplate jdbcTemplate;
+    private MysqlDataSource dataSource;    private JdbcTemplate jdbcTemplate;
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private KnihaRowMapper mapovacKnih = new KnihaRowMapper();
     

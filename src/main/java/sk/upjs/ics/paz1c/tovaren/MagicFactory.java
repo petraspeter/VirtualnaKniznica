@@ -59,7 +59,7 @@ public enum MagicFactory {
     public MysqlDataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         Properties nastavenia = getProperties();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/v?serverTimezone=UTC");
         dataSource.setUser("vlibRoot");
         dataSource.setPassword("toor");
         return dataSource;
