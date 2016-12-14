@@ -8,8 +8,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.paz1c.dao.PouzivatelDao;
 import sk.upjs.ics.paz1c.entity.Kniha;
 import sk.upjs.ics.paz1c.entity.Pouzivatel;
+import sk.upjs.ics.paz1c.tovaren.MagicFactory;
 
 /**
  *
@@ -17,7 +20,14 @@ import sk.upjs.ics.paz1c.entity.Pouzivatel;
  */
 public class DatabazovyPouzivatelDaoTest {
     
+    
+    private JdbcTemplate jdbcTemplate;
+    private PouzivatelDao pouzivatelDao;
+    
     public DatabazovyPouzivatelDaoTest() {
+        this.jdbcTemplate = new JdbcTemplate(MagicFactory.INSTANCE.dataSource());
+        this.pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
+        
     }
     
     @BeforeClass
@@ -37,34 +47,29 @@ public class DatabazovyPouzivatelDaoTest {
     }
     
     /**
-     * Test of prihlasPouzivatela method, of class DatabazovyPouzivatelDao.
-     */
-    @Test
-    public void testPrihlasPouzivatela() {
-        System.out.println("prihlasPouzivatela");
-        String meno = "";
-        String heslo = "";
-        DatabazovyPouzivatelDao instance = null;
-        Pouzivatel expResult = null;
-        Pouzivatel result = instance.prihlasPouzivatela(meno, heslo);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    /**
      * Test of zaregistrujPouzivatela method, of class DatabazovyPouzivatelDao.
      */
     @Test
     public void testZaregistrujPouzivatela() {
         System.out.println("zaregistrujPouzivatela");
-        String meno = "";
-        String heslo = "";
-        String email = "";
-        DatabazovyPouzivatelDao instance = null;
-        instance.zaregistrujPouzivatela(meno, heslo, email);
+        String meno = "istvan";
+        String heslo = "heslo";
+        String email = "nemam@nic.td";
+        pouzivatelDao.zaregistrujPouzivatela(meno, heslo, email);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of prihlasPouzivatela method, of class DatabazovyPouzivatelDao.
+     */
+    @Test
+    public void testPrihlasPouzivatela() {
+        System.out.println("prihlasPouzivatela");
+        String meno = "istvan";
+        String heslo = "heslo";
+        Pouzivatel p = pouzivatelDao.prihlasPouzivatela(meno, heslo);
+        assertEquals("istvan", p.getMenoPouzivatel());
     }
     
     /**
@@ -73,28 +78,9 @@ public class DatabazovyPouzivatelDaoTest {
     @Test
     public void testOblubeneKnihy() {
         System.out.println("oblubeneKnihy");
-        Pouzivatel pouzivatel = null;
-        DatabazovyPouzivatelDao instance = null;
-        List<Kniha> expResult = null;
-        List<Kniha> result = instance.oblubeneKnihy(pouzivatel);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    /**
-     * Test of rozcitaneKnihySoStranami method, of class DatabazovyPouzivatelDao.
-     */
-    @Test
-    public void testRozcitaneKnihySoStranami() {
-        System.out.println("rozcitaneKnihySoStranami");
-        Pouzivatel pouzivatel = null;
-        DatabazovyPouzivatelDao instance = null;
-        Map<Kniha, Integer> expResult = null;
-        Map<Kniha, Integer> result = instance.rozcitaneKnihySoStranami(pouzivatel);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Pouzivatel pouzivatel =pouzivatelDao.prihlasPouzivatela("root", "toor");
+        List<Kniha> oblubene = pouzivatelDao.oblubeneKnihy(pouzivatel);
+        assertEquals("krev elfu", oblubene.get(0).getAliasKniha());
     }
     
     /**
@@ -103,13 +89,11 @@ public class DatabazovyPouzivatelDaoTest {
     @Test
     public void testPridalPouzivatel() {
         System.out.println("pridalPouzivatel");
-        Pouzivatel pouzivatel = null;
-        DatabazovyPouzivatelDao instance = null;
-        List<Kniha> expResult = null;
-        List<Kniha> result = instance.pridalPouzivatel(pouzivatel);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Pouzivatel pouzivatel =pouzivatelDao.prihlasPouzivatela("peter", "heslo");
+        List<Kniha>  result = pouzivatelDao.pridalPouzivatel(pouzivatel);
+        int expResult = 2;
+        assertEquals(expResult, result.size());
     }
     
     /**

@@ -360,24 +360,24 @@ public class AdminOkno extends javax.swing.JFrame {
 
     private void nazvuRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nazvuRadioButtonMouseClicked
         nazvy = knihaDao.nacitajKnihy();
-        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(nazvy));
+      //  vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(nazvy));
         vyhladaj = 0;
     }//GEN-LAST:event_nazvuRadioButtonMouseClicked
 
     private void autoraRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_autoraRadioButtonMouseClicked
         autori = autorDao.nacitajAutorov();
-        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(autori));
+     //   vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(autori));
         vyhladaj = 1;
     }//GEN-LAST:event_autoraRadioButtonMouseClicked
 
     private void zanruRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zanruRadioButtonMouseClicked
         zanre = knihaDao.nacitajZanre();
-        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(zanre));
+      //  vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(zanre));
         vyhladaj = 2;
     }//GEN-LAST:event_zanruRadioButtonMouseClicked
 
     private void jazykaRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jazykaRadioButtonMouseClicked
-        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(jazyky));
+  //      vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(jazyky));
         vyhladaj = 3;
     }//GEN-LAST:event_jazykaRadioButtonMouseClicked
 

@@ -56,16 +56,13 @@ public enum MagicFactory {
         return this.autorDao;
     }
     
-    private MysqlDataSource dataSource() {
+    public MysqlDataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         Properties nastavenia = getProperties();
-//        dataSource.setUrl(nastavenia.getProperty("urlDatabazy"));
-//        dataSource.setUser(nastavenia.getProperty("pouzivatel"));
-//        dataSource.setPassword(nastavenia.getProperty("heslo"));
         dataSource.setUrl("jdbc:mysql://localhost:3306/vlib");
         dataSource.setUser("vlibRoot");
         dataSource.setPassword("toor");
-return dataSource;
+        return dataSource;
 
     }
     

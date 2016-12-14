@@ -68,8 +68,10 @@ public class Autor {
         this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
         this.priezviskoAutor = priezviskoAutor;
         this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(priezviskoAutor);
-        this.stredneAutor = stredneAutor;
-        this.aliasStredne = vytvaracAliasov.vytvorAlias(stredneAutor);
+        if(stredneAutor != null) {
+            this.stredneAutor = stredneAutor;
+            this.aliasStredne = vytvaracAliasov.vytvorAlias(stredneAutor);
+        }
         this.popisAutor = popisAutor;
     }
     

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sk.upjs.ics.paz1c.databazovyDao;
 
 import java.util.List;
@@ -15,7 +20,6 @@ import sk.upjs.ics.paz1c.entity.Kniha;
  * @author raven
  */
 public class DatabazovyAutorDaoTest {
-    
     
     public DatabazovyAutorDaoTest() {
     }
@@ -35,7 +39,7 @@ public class DatabazovyAutorDaoTest {
     @After
     public void tearDown() {
     }
-    
+
     /**
      * Test of najdiKnihuPodlaAutora method, of class DatabazovyAutorDao.
      */
@@ -52,7 +56,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of najdiKnihuPodlaAutora method, of class DatabazovyAutorDao.
      */
@@ -67,7 +71,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of najdiAutora method, of class DatabazovyAutorDao.
      */
@@ -84,7 +88,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of najdiAutora method, of class DatabazovyAutorDao.
      */
@@ -99,7 +103,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of pridajAutora method, of class DatabazovyAutorDao.
      */
@@ -112,7 +116,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of upravAutora method, of class DatabazovyAutorDao.
      */
@@ -125,7 +129,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of vymazAutora method, of class DatabazovyAutorDao.
      */
@@ -138,7 +142,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of nacitajAutorov method, of class DatabazovyAutorDao.
      */
@@ -152,7 +156,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of nacitajAutora method, of class DatabazovyAutorDao.
      */
@@ -167,7 +171,7 @@ public class DatabazovyAutorDaoTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of upravAutorov method, of class DatabazovyAutorDao.
      */
