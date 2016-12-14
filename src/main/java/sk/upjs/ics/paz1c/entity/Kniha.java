@@ -28,7 +28,7 @@ public class Kniha {
     private Long zaner;
     
     private String jazyk1;
-        
+    
     private String jazyk2;
     
     private Long oblubenostKniha;
@@ -75,6 +75,25 @@ public class Kniha {
         this.zaner = zaner1;
         this.jazyk1 = jazyk1;
     }
+    public Kniha( String nazovKniha, Long autorKniha, String urlKniha, Long pridalKniha,
+            String formatKniha, Long zaner, String jazyk1, String jazyk2,
+            Long pocetStran, String popisKniha) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
+        this.idKniha = idKniha;
+        this.nazovKniha = nazovKniha;
+        this.aliasKniha = vytvaracAliasov.vytvorAlias(nazovKniha);
+        this.autorKniha = autorKniha;
+        this.urlKniha = urlKniha;
+        this.pridalKniha = pridalKniha;
+        this.formatKniha = formatKniha;
+        this.zaner = zaner;
+        this.jazyk1 = jazyk1;
+        this.jazyk2 = jazyk2;
+        this.oblubenostKniha = oblubenostKniha;
+        this.pocetStran = pocetStran;
+        this.popisKniha = popisKniha;
+    }
+    
     
     /*
     gettre a settre

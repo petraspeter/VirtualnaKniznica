@@ -1,23 +1,71 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sk.upjs.ics.paz1c.gui;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.TableColumnModel;
+import sk.upjs.ics.paz1c.dao.AutorDao;
+import sk.upjs.ics.paz1c.dao.KnihaDao;
+import sk.upjs.ics.paz1c.entity.Autor;
+import sk.upjs.ics.paz1c.entity.Kniha;
+import sk.upjs.ics.paz1c.entity.Pouzivatel;
+import sk.upjs.ics.paz1c.modely.AdminKnihaTableModel;
+import sk.upjs.ics.paz1c.pomocneTriedy.VytvaracAliasov;
+import sk.upjs.ics.paz1c.pomocneTriedy.kombacik.KombacNasepkavac;
+import sk.upjs.ics.paz1c.pomocneTriedy.kombacik.VyhladavatelnyRetazec;
+import sk.upjs.ics.paz1c.tovaren.MagicFactory;
 
 /**
  *
  * @author raven
  */
 public class AdminOkno extends javax.swing.JFrame {
-
+    
+    private Pouzivatel pouzivatel;
+    
+    private AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
+    
+    private KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
+    
+    private List<String> nazvy = knihaDao.nacitajKnihy();
+    
+    private List<String> autori;
+    
+    private List<String> zanre;
+    
+    private List<String> jazyky;
+    
+    private List<String> formaty;
+    
+    int vyhladaj = 0;
+    
+    private static final AdminKnihaTableModel adminKnihaTableModel = new AdminKnihaTableModel();
+    
+    private TableColumnModel tcm;
+    
+    private Kniha kniha;
+    
+    private Autor autor;
+    
+    private List<Kniha> knihy;
+    
+    private List<Autor> zoznamAutorov;
+    
     /**
      * Creates new form UvodneOkno
      */
-    public AdminOkno() {
+    public AdminOkno(Pouzivatel pouzivatel) {
+        this.pouzivatel = pouzivatel;
+        formaty = new ArrayList<>(); formaty.add("pdf"); formaty.add("epub"); formaty.add("mobi");
+        jazyky = new ArrayList<>(); jazyky.add("cz"); jazyky.add("sk"); jazyky.add("en");
+        jazyky.add("de"); jazyky.add("re"); jazyky.add("pl");
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,21 +78,16 @@ public class AdminOkno extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         vyhladavajPodlaButtonGroup = new javax.swing.ButtonGroup();
         vyhladajButtonGroup = new javax.swing.ButtonGroup();
-        TabulkaKnihScrollPane = new javax.swing.JScrollPane();
+        tabulkaKnihScrollPane = new javax.swing.JScrollPane();
         knihyTable = new javax.swing.JTable();
-        vyhladajComboBox = new javax.swing.JComboBox<>();
+        vyhladajComboBox = new KombacNasepkavac(new VyhladavatelnyRetazec(nazvy));
         vyhladajButton = new javax.swing.JButton();
-        pridajAutoraButton = new javax.swing.JButton();
         OdhlasSaButton = new javax.swing.JButton();
         pridajKnihuButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        oAutoroviScrollPane = new javax.swing.JScrollPane();
-        popisAutoraTextArea = new javax.swing.JTextArea();
-        oKniheScrollPane = new javax.swing.JScrollPane();
-        popisKnihyTextArea = new javax.swing.JTextArea();
+        tabulkaautorovScrollPane = new javax.swing.JScrollPane();
+        autoriTable = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        hladajAutoraButton = new javax.swing.JButton();
         vyhladavaciPanePanel = new javax.swing.JPanel();
         vyhladavajPodlaLabel = new javax.swing.JLabel();
         nazvuRadioButton = new javax.swing.JRadioButton();
@@ -53,7 +96,7 @@ public class AdminOkno extends javax.swing.JFrame {
         autoraRadioButton = new javax.swing.JRadioButton();
         jazykaRadioButton = new javax.swing.JRadioButton();
         formatuRadioButton1 = new javax.swing.JRadioButton();
-        jButton2 = new javax.swing.JButton();
+        ulozZmenyButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -70,18 +113,8 @@ public class AdminOkno extends javax.swing.JFrame {
         setTitle("Virtuálna knižnica");
         setMinimumSize(new java.awt.Dimension(900, 710));
 
-        knihyTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        TabulkaKnihScrollPane.setViewportView(knihyTable);
+        knihyTable.setModel(adminKnihaTableModel);
+        tabulkaKnihScrollPane.setViewportView(knihyTable);
 
         vyhladajComboBox.setEditable(true);
         vyhladajComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -89,19 +122,32 @@ public class AdminOkno extends javax.swing.JFrame {
         vyhladajButton.setText("Hľadaj");
         vyhladajButton.setMaximumSize(new java.awt.Dimension(90, 35));
         vyhladajButton.setMinimumSize(new java.awt.Dimension(90, 35));
-
-        pridajAutoraButton.setText("Pridaj autora");
+        vyhladajButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                vyhladajButtonKeyPressed(evt);
+            }
+        });
 
         OdhlasSaButton.setText("Odhlás sa");
+        OdhlasSaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                OdhlasSaButtonMouseClicked(evt);
+            }
+        });
 
         pridajKnihuButton.setText("Pridaj knihu");
+        pridajKnihuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pridajKnihuButtonMouseClicked(evt);
+            }
+        });
         pridajKnihuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pridajKnihuButtonActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        autoriTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -112,28 +158,12 @@ public class AdminOkno extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-
-        oAutoroviScrollPane.setMaximumSize(new java.awt.Dimension(130, 130));
-
-        popisAutoraTextArea.setColumns(20);
-        popisAutoraTextArea.setRows(5);
-        popisAutoraTextArea.setText("O autorovi");
-        popisAutoraTextArea.setToolTipText("");
-        popisAutoraTextArea.setMaximumSize(new java.awt.Dimension(130, 75));
-        popisAutoraTextArea.setPreferredSize(new java.awt.Dimension(150, 75));
-        oAutoroviScrollPane.setViewportView(popisAutoraTextArea);
-
-        popisKnihyTextArea.setColumns(20);
-        popisKnihyTextArea.setLineWrap(true);
-        popisKnihyTextArea.setRows(5);
-        popisKnihyTextArea.setText("Popis knihy");
-        oKniheScrollPane.setViewportView(popisKnihyTextArea);
+        tabulkaautorovScrollPane.setViewportView(autoriTable);
 
         jComboBox1.setEditable(true);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Hľadaj");
+        hladajAutoraButton.setText("Hľadaj");
 
         vyhladavajPodlaLabel.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
         vyhladavajPodlaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -141,6 +171,11 @@ public class AdminOkno extends javax.swing.JFrame {
 
         nazvuRadioButton.setSelected(true);
         nazvuRadioButton.setText("Názvu");
+        nazvuRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nazvuRadioButtonMouseClicked(evt);
+            }
+        });
         nazvuRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nazvuRadioButtonActionPerformed(evt);
@@ -148,10 +183,25 @@ public class AdminOkno extends javax.swing.JFrame {
         });
 
         zanruRadioButton.setText("Žánru");
+        zanruRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                zanruRadioButtonMouseClicked(evt);
+            }
+        });
 
         oblubenostiRadioButton1.setText("Obľúbenosti");
+        oblubenostiRadioButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                oblubenostiRadioButton1MouseEntered(evt);
+            }
+        });
 
         autoraRadioButton.setText("Autora");
+        autoraRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                autoraRadioButtonMouseClicked(evt);
+            }
+        });
         autoraRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 autoraRadioButtonActionPerformed(evt);
@@ -159,8 +209,18 @@ public class AdminOkno extends javax.swing.JFrame {
         });
 
         jazykaRadioButton.setText("Jazyka");
+        jazykaRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jazykaRadioButtonMouseClicked(evt);
+            }
+        });
 
         formatuRadioButton1.setText("Formátu");
+        formatuRadioButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formatuRadioButton1MouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout vyhladavaciPanePanelLayout = new javax.swing.GroupLayout(vyhladavaciPanePanel);
         vyhladavaciPanePanel.setLayout(vyhladavaciPanePanelLayout);
@@ -203,7 +263,12 @@ public class AdminOkno extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton2.setText("Ulož zmey");
+        ulozZmenyButton.setText("Ulož zmey");
+        ulozZmenyButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ulozZmenyButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,26 +281,23 @@ public class AdminOkno extends javax.swing.JFrame {
                         .addComponent(vyhladajComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-                    .addComponent(TabulkaKnihScrollPane)
+                    .addComponent(tabulkaautorovScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                    .addComponent(tabulkaKnihScrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hladajAutoraButton)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(oKniheScrollPane)
-                        .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(pridajAutoraButton)
-                            .addGap(11, 11, 11)
-                            .addComponent(pridajKnihuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(OdhlasSaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pridajKnihuButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ulozZmenyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(OdhlasSaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,34 +305,28 @@ public class AdminOkno extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(vyhladajComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(vyhladajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TabulkaKnihScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tabulkaKnihScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pridajKnihuButton)
-                            .addComponent(pridajAutoraButton))
+                        .addGap(63, 63, 63)
+                        .addComponent(pridajKnihuButton)
                         .addGap(18, 18, 18)
-                        .addComponent(oKniheScrollPane)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(ulozZmenyButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(OdhlasSaButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(OdhlasSaButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(hladajAutoraButton))
+                .addGap(12, 12, 12)
+                .addComponent(tabulkaautorovScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -288,6 +344,79 @@ public class AdminOkno extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_autoraRadioButtonActionPerformed
 
+    private void ulozZmenyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ulozZmenyButtonMouseClicked
+        knihaDao.upravKnihy(knihy);
+        autorDao.upravAutorov(zoznamAutorov);
+    }//GEN-LAST:event_ulozZmenyButtonMouseClicked
+
+    private void OdhlasSaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OdhlasSaButtonMouseClicked
+        dispose();
+        new UvodneOkno().setVisible(true);
+    }//GEN-LAST:event_OdhlasSaButtonMouseClicked
+
+    private void pridajKnihuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pridajKnihuButtonMouseClicked
+        new PridajKnihu(this, false, pouzivatel.getIdPouzivatel());
+    }//GEN-LAST:event_pridajKnihuButtonMouseClicked
+
+    private void nazvuRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nazvuRadioButtonMouseClicked
+        nazvy = knihaDao.nacitajKnihy();
+        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(nazvy));
+        vyhladaj = 0;
+    }//GEN-LAST:event_nazvuRadioButtonMouseClicked
+
+    private void autoraRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_autoraRadioButtonMouseClicked
+        autori = autorDao.nacitajAutorov();
+        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(autori));
+        vyhladaj = 1;
+    }//GEN-LAST:event_autoraRadioButtonMouseClicked
+
+    private void zanruRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zanruRadioButtonMouseClicked
+        zanre = knihaDao.nacitajZanre();
+        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(zanre));
+        vyhladaj = 2;
+    }//GEN-LAST:event_zanruRadioButtonMouseClicked
+
+    private void jazykaRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jazykaRadioButtonMouseClicked
+        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(jazyky));
+        vyhladaj = 3;
+    }//GEN-LAST:event_jazykaRadioButtonMouseClicked
+
+    private void oblubenostiRadioButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_oblubenostiRadioButton1MouseEntered
+        vyhladaj = 4;
+    }//GEN-LAST:event_oblubenostiRadioButton1MouseEntered
+
+    private void formatuRadioButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formatuRadioButton1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formatuRadioButton1MouseEntered
+
+    private void vyhladajButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vyhladajButtonKeyPressed
+        vyhladajAkcia();
+    }//GEN-LAST:event_vyhladajButtonKeyPressed
+    
+    private void vyhladajAkcia() {
+        VytvaracAliasov vytvaracAlias = new VytvaracAliasov();
+        String naVyhladanie = vytvaracAlias.vytvorAlias(vyhladajComboBox.getEditor().getItem().toString());
+        if(vyhladaj == 0) {
+            knihy = adminKnihaTableModel.naciatajPodlaNazvu(naVyhladanie);
+        }
+        if(vyhladaj == 1) {
+            knihy = adminKnihaTableModel.naciatajPodlaAutora(naVyhladanie);
+        }
+        if(vyhladaj == 2) {
+            knihy = adminKnihaTableModel.naciatajPodlaZanru(naVyhladanie);
+        }
+        if(vyhladaj == 3) {
+            knihy = adminKnihaTableModel.naciatajPodlaJazyka(naVyhladanie);
+        }
+        if(vyhladaj == 4) {
+            knihy = adminKnihaTableModel.nacitajPodlaOblubenosti();
+        }
+        if(vyhladaj == 5) {
+            knihy = adminKnihaTableModel.naciatajPodlaFormatu(naVyhladanie);
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -295,8 +424,8 @@ public class AdminOkno extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -317,50 +446,37 @@ public class AdminOkno extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminOkno().setVisible(true);
+                // new AdminOkno().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OdhlasSaButton;
-    private javax.swing.JScrollPane TabulkaKnihScrollPane;
     private javax.swing.JRadioButton autoraRadioButton;
-    private javax.swing.JRadioButton autoraRadioButton1;
-    private javax.swing.JRadioButton formatuRadioButton;
+    private javax.swing.JTable autoriTable;
     private javax.swing.JRadioButton formatuRadioButton1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton hladajAutoraButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDialog jDialog1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton jazykaRadioButton;
-    private javax.swing.JRadioButton jazykaRadioButton1;
     private javax.swing.JTable knihyTable;
     private javax.swing.JRadioButton nazvuRadioButton;
-    private javax.swing.JRadioButton nazvuRadioButton1;
-    private javax.swing.JScrollPane oAutoroviScrollPane;
-    private javax.swing.JScrollPane oKniheScrollPane;
-    private javax.swing.JRadioButton oblubenostiRadioButton;
     private javax.swing.JRadioButton oblubenostiRadioButton1;
-    private javax.swing.JTextArea popisAutoraTextArea;
-    private javax.swing.JTextArea popisKnihyTextArea;
-    private javax.swing.JButton pridajAutoraButton;
     private javax.swing.JButton pridajKnihuButton;
+    private javax.swing.JScrollPane tabulkaKnihScrollPane;
+    private javax.swing.JScrollPane tabulkaautorovScrollPane;
+    private javax.swing.JButton ulozZmenyButton;
     private javax.swing.JButton vyhladajButton;
     private javax.swing.ButtonGroup vyhladajButtonGroup;
     private javax.swing.JComboBox<String> vyhladajComboBox;
     private javax.swing.JPanel vyhladavaciPanePanel;
-    private javax.swing.JPanel vyhladavaciPanePanel1;
     private javax.swing.ButtonGroup vyhladavajPodlaButtonGroup;
     private javax.swing.JLabel vyhladavajPodlaLabel;
-    private javax.swing.JLabel vyhladavajPodlaLabel1;
     private javax.swing.JRadioButton zanruRadioButton;
-    private javax.swing.JRadioButton zanruRadioButton1;
     // End of variables declaration//GEN-END:variables
 }

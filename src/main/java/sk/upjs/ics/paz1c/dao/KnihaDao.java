@@ -22,12 +22,14 @@ public interface KnihaDao {
     List<String> nacitajZanre();
     
     List<String> nacitajKnihy();
-    
-    public Kniha najdiKnihu(String nazovKnihy);
-    
+        
     public Kniha najdiKnihu(Long id);
     
     public String vratZaner(long idZanru);
+    
+    public Long vratZaner(String zaner);
+    
+    public void pridajZaner(String zaner);
     
     public void upravKnihy(List<Kniha> knihy);
 

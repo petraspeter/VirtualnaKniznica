@@ -5,10 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sk.upjs.ics.paz1c.dao.AutorDao;
 import sk.upjs.ics.paz1c.dao.KnihaDao;
-import sk.upjs.ics.paz1c.dao.PouzivatelDao;
-import sk.upjs.ics.paz1c.entity.Autor;
 import sk.upjs.ics.paz1c.entity.Kniha;
-import sk.upjs.ics.paz1c.entity.Pouzivatel;
 import sk.upjs.ics.paz1c.pomocneTriedy.CitacVstupu;
 import sk.upjs.ics.paz1c.tovaren.MagicFactory;
 
@@ -16,20 +13,19 @@ import sk.upjs.ics.paz1c.tovaren.MagicFactory;
  *
  * @author raven
  */
-public class KnihaTableModel extends AbstractTableModel {
-    
+public class AdminKnihaTableModel  extends AbstractTableModel{
     
     private static final AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
     
     private static final KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
     
-    private static final int pocetStlpcov = 5;
+    private static final int pocetStlpcov = 12;
     
-    private static final String[] nazvyStlpocv = {"Názov", "Žáner", "Jazyk", "Formát", "ID"};
+    private static final String[] nazvyStlpocv = {"ID", "Názov", "Alias", "Autor", "URL", "Pridal", "Formát",
+        "Žáner", "Jazyk", "Jazyk2", "Počet strán", "Popis"};
     
-    private static final Class[] typyStlpcov = {String.class, String.class, String.class, String.class, Long.class};
-    
-    Autor autor = new Autor();
+    private static final Class[] typyStlpcov = {Long.class, String.class, String.class, Long.class, String.class,
+        Long.class, String.class, Long.class, String.class, String.class, Integer.class, String.class};
     
     private List<Kniha> knihy = new ArrayList<>();
     
@@ -46,28 +42,45 @@ public class KnihaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Kniha kniha = knihy.get(rowIndex);
-        autor = autorDao.najdiAutora(kniha.getAutorKniha());
+        /*    "ID", "Názov", "Alias", "Autor", "URL", "Pridal", "Formát",
+        "Žáner", "Jazyk", "Počet strán", "Popis"};*/
         if(columnIndex == 0) {
-            return kniha.getNazovKniha();
-        } else {
-            if(columnIndex == 1) {
-                return knihaDao.vratZaner(kniha.getZaner());
-            } else {
-                if(columnIndex == 2) {
-                    if(kniha.getJazyk2() != null && !kniha.getJazyk2().equals("")) {
-                        return kniha.getJazyk1() + "/" + kniha.getJazyk2();
-                    } else {
-                        return kniha.getJazyk1();
-                    }
-                } else {
-                    if(columnIndex == 3) {
-                        return kniha.getFormatKniha();
-                    } else {
-                        return kniha.getIdKniha();
-                    }
-                }
-            }
+            return kniha.getIdKniha();
         }
+        if(columnIndex == 1) {
+            return kniha.getNazovKniha();
+        }
+        if(columnIndex == 2) {
+            return kniha.getAliasKniha();
+        }
+        if(columnIndex == 3) {
+            return kniha.getAutorKniha();
+        }
+        if(columnIndex == 4) {
+            return kniha.getUrlKniha();
+        }
+        if(columnIndex == 5) {
+            return kniha.getPridalKniha();
+        }
+        if(columnIndex == 6) {
+            return kniha.getFormatKniha();
+        }
+        if(columnIndex == 7) {
+            return kniha.getZaner();
+        }
+        if(columnIndex == 8) {
+            return kniha.getJazyk1();
+        }
+        if(columnIndex == 9) {
+            return kniha.getJazyk2();
+        }
+        if(columnIndex == 10) {
+            return kniha.getPocetStran();
+        }
+        if(columnIndex == 11) {
+            return kniha.getPopisKniha();
+        }
+        return null;
     }
     
     @Override
@@ -111,6 +124,13 @@ public class KnihaTableModel extends AbstractTableModel {
         return knihy;
     }
     
+    public List<Kniha> nacitajPodlaOblubenosti() {
+        knihy.clear();
+        knihy = knihaDao.najdiPodlaOblubenosti();
+        fireTableDataChanged();
+        return knihy;
+    }
+    
     public List<Kniha> naciatajPodlaAutora(String autor) {
         CitacVstupu citacVstupu = new CitacVstupu();
         String[] vstup = citacVstupu.vratPodretazceZoVstupu(autor);
@@ -128,27 +148,9 @@ public class KnihaTableModel extends AbstractTableModel {
         return knihy;
     }
     
-    public List<Kniha> nacitajPodlaOblubenosti() {
-        knihy.clear();
-        knihy = knihaDao.najdiPodlaOblubenosti();
-        fireTableDataChanged();
-        return knihy;
-    }
-    
-    public List<Kniha> nacitajOblubene(Pouzivatel pouzivatel) {
-        knihy.clear();
-        PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
-        knihy = pouzivatelDao.oblubeneKnihy(pouzivatel);
-        fireTableDataChanged();
-        return knihy;
-    }
-    
-    public List<Kniha> nacitajRozcitane(Pouzivatel pouzivatel) {
-        knihy.clear();
-        PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
-        knihy = pouzivatelDao.rozcitaneKnihy(pouzivatel);
-        fireTableDataChanged();
-        return knihy;
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return true;
     }
     
 }

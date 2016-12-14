@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package sk.upjs.ics.paz1c.gui;
 
 import java.util.ArrayList;
@@ -24,18 +19,12 @@ import sk.upjs.ics.paz1c.tovaren.MagicFactory;
  *
  * @author raven
  */
-public class UvodneOkno extends javax.swing.JFrame {
+public class PouzivatelOkno extends javax.swing.JFrame {
+    
     
     /*
     slovniky na vyhladavanie
     */
-    
-    private AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
-    
-    private KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
-    
-//    private PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
-    
     private List<String> nazvy = knihaDao.nacitajKnihy();
     
     private List<String> autori;
@@ -52,21 +41,30 @@ public class UvodneOkno extends javax.swing.JFrame {
     
     private TableColumnModel tcm;
     
+    private static final AutorDao autorDao = MagicFactory.INSTANCE.autorDao();
+    
+    private static final KnihaDao knihaDao = MagicFactory.INSTANCE.knihaDao();
+    
+    private static final PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
+    
+    private Pouzivatel pouzivatel;
+    
     private Kniha kniha;
     
     private Autor autor;
     
     private List<Kniha> knihy;
     
+    private boolean oblubene = false;
     
     /**
-     * Creates new form UvodneOkno
+     * Creates new form PouzivatelOkno
      */
-    public UvodneOkno() {
+    public PouzivatelOkno(Pouzivatel pouvivatel) {
+        this.pouzivatel = pouvivatel;
         formaty = new ArrayList<>(); formaty.add("pdf"); formaty.add("epub"); formaty.add("mobi");
         jazyky = new ArrayList<>(); jazyky.add("cz"); jazyky.add("sk"); jazyky.add("en");
         jazyky.add("de"); jazyky.add("re"); jazyky.add("pl");
-        
         initComponents();
         /*
         nastavime sirku ID stlpca na 0
@@ -86,6 +84,7 @@ public class UvodneOkno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
         
+        oblubeneRozcitanebuttonGroup = new javax.swing.ButtonGroup();
         vyhladavajPodlaButtonGroup = new javax.swing.ButtonGroup();
         vyhladavaciPanePanel = new javax.swing.JPanel();
         vyhladavajPodlaLabel = new javax.swing.JLabel();
@@ -95,15 +94,18 @@ public class UvodneOkno extends javax.swing.JFrame {
         autoraRadioButton = new javax.swing.JRadioButton();
         jazykaRadioButton = new javax.swing.JRadioButton();
         formatuRadioButton = new javax.swing.JRadioButton();
+        pridajButton = new javax.swing.JButton();
+        odoberButton = new javax.swing.JButton();
+        oblubeneRadioButton = new javax.swing.JRadioButton();
+        rozcitaneRadioButton = new javax.swing.JRadioButton();
+        vyhladajORButton = new javax.swing.JButton();
+        pridajKnihuButton = new javax.swing.JButton();
         TabulkaScrollPane = new javax.swing.JScrollPane();
         tabulkaTable = new javax.swing.JTable();
         vyhladajComboBox = new KombacNasepkavac(new VyhladavatelnyRetazec(nazvy));
         vyhladajButton = new javax.swing.JButton();
         prihlasovaciPanel = new javax.swing.JPanel();
-        prihlasovacieMenoTextField = new javax.swing.JTextField();
-        hesloPasswordField = new javax.swing.JPasswordField();
-        prihlasButton = new javax.swing.JButton();
-        registrujButton = new javax.swing.JButton();
+        odhlasButton = new javax.swing.JButton();
         oKnihePanel = new javax.swing.JPanel();
         oKniheScrollPane = new javax.swing.JScrollPane();
         popisKnihyTextArea = new javax.swing.JTextArea();
@@ -114,8 +116,8 @@ public class UvodneOkno extends javax.swing.JFrame {
         citajButton = new javax.swing.JButton();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Virtuálna knižnica");
-        setMinimumSize(new java.awt.Dimension(900, 710));
+        setTitle("Virtuálna nižnica");
+        setSize(new java.awt.Dimension(900, 700));
         
         vyhladavajPodlaLabel.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
         vyhladavajPodlaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -180,6 +182,46 @@ public class UvodneOkno extends javax.swing.JFrame {
             }
         });
         
+        pridajButton.setText("Pridať");
+        pridajButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pridajButtonMouseClicked(evt);
+            }
+        });
+        
+        odoberButton.setText("Odobrať");
+        odoberButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                odoberButtonMouseClicked(evt);
+            }
+        });
+        odoberButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                odoberButtonActionPerformed(evt);
+            }
+        });
+        
+        oblubeneRozcitanebuttonGroup.add(oblubeneRadioButton);
+        oblubeneRadioButton.setSelected(true);
+        oblubeneRadioButton.setText("Obľúbené");
+        
+        oblubeneRozcitanebuttonGroup.add(rozcitaneRadioButton);
+        rozcitaneRadioButton.setText("Rozčítané");
+        
+        vyhladajORButton.setText("Vyhľadaj O/R");
+        vyhladajORButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                vyhladajORButtonMouseClicked(evt);
+            }
+        });
+        
+        pridajKnihuButton.setText("Pridaj knihu");
+        pridajKnihuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pridajKnihuButtonMouseClicked(evt);
+            }
+        });
+        
         javax.swing.GroupLayout vyhladavaciPanePanelLayout = new javax.swing.GroupLayout(vyhladavaciPanePanel);
         vyhladavaciPanePanel.setLayout(vyhladavaciPanePanelLayout);
         vyhladavaciPanePanelLayout.setHorizontalGroup(
@@ -187,19 +229,26 @@ public class UvodneOkno extends javax.swing.JFrame {
                         .addGroup(vyhladavaciPanePanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(vyhladavajPodlaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                                        .addComponent(vyhladavajPodlaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(vyhladavaciPanePanelLayout.createSequentialGroup()
+                                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(vyhladajORButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(pridajButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(oblubeneRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(nazvuRadioButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(zanruRadioButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(oblubenostiRadioButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(nazvuRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(zanruRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(oblubenostiRadioButton))
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vyhladavaciPanePanelLayout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(formatuRadioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(autoraRadioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jazykaRadioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(odoberButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vyhladavaciPanePanelLayout.createSequentialGroup()
+                                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(formatuRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                                                        .addComponent(autoraRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                                                        .addComponent(jazykaRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                                                        .addComponent(rozcitaneRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                        .addComponent(pridajKnihuButton, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))))
                                 .addContainerGap())
         );
         vyhladavaciPanePanelLayout.setVerticalGroup(
@@ -218,7 +267,18 @@ public class UvodneOkno extends javax.swing.JFrame {
                                 .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(oblubenostiRadioButton)
                                         .addComponent(formatuRadioButton))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(oblubeneRadioButton)
+                                        .addComponent(rozcitaneRadioButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(odoberButton)
+                                        .addComponent(pridajButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(vyhladavaciPanePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(vyhladajORButton)
+                                        .addComponent(pridajKnihuButton)))
         );
         
         tabulkaTable.setModel(knihaTableModel);
@@ -251,31 +311,10 @@ public class UvodneOkno extends javax.swing.JFrame {
             }
         });
         
-        prihlasovacieMenoTextField.setText("Meno");
-        prihlasovacieMenoTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prihlasovacieMenoTextFieldActionPerformed(evt);
-            }
-        });
-        
-        hesloPasswordField.setText("jPasswordField1");
-        
-        prihlasButton.setText("Prihlás sa");
-        prihlasButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                prihlasButtonMouseClicked(evt);
-            }
-        });
-        
-        registrujButton.setText("Registruj sa");
-        registrujButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                registrujButtonMouseClicked(evt);
-            }
-        });
-        registrujButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registrujButtonActionPerformed(evt);
+        odhlasButton.setText("Odhlás sa");
+        odhlasButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                odhlasButtonKeyPressed(evt);
             }
         });
         
@@ -284,27 +323,15 @@ public class UvodneOkno extends javax.swing.JFrame {
         prihlasovaciPanelLayout.setHorizontalGroup(
                 prihlasovaciPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(prihlasovaciPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(prihlasovaciPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(hesloPasswordField)
-                                        .addComponent(prihlasovacieMenoTextField)
-                                        .addGroup(prihlasovaciPanelLayout.createSequentialGroup()
-                                                .addComponent(prihlasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(registrujButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
-                                .addContainerGap())
+                                .addGap(91, 91, 91)
+                                .addComponent(odhlasButton)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         prihlasovaciPanelLayout.setVerticalGroup(
                 prihlasovaciPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(prihlasovaciPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(prihlasovacieMenoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(hesloPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                .addGroup(prihlasovaciPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(prihlasButton)
-                                        .addComponent(registrujButton)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, prihlasovaciPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(odhlasButton))
         );
         
         popisKnihyTextArea.setEditable(false);
@@ -353,9 +380,9 @@ public class UvodneOkno extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(menoAutoraLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                .addComponent(oAutoroviScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(oKniheScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                                .addComponent(oKniheScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(pocetStranLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
@@ -396,7 +423,7 @@ public class UvodneOkno extends javax.swing.JFrame {
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(21, 21, 21)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,7 +434,7 @@ public class UvodneOkno extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(vyhladavaciPanePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(prihlasovaciPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(citajButton)
@@ -419,42 +446,15 @@ public class UvodneOkno extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
     
-    private void autoraRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-    
-    private void registrujButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-    
-    private void nazvuRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-    
-    private void prihlasovacieMenoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-    
-    private void registrujButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        new RegistracnyFormular(this, false).setVisible(true);
-    }
-    
-    private void autoraRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        autori = autorDao.nacitajAutorov();
-        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(autori));
-        vyhladaj = 1;
-    }
-    
-    private void vyhladajButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        vyhladajAkcia();
-    }
-    
     private void nazvuRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
         nazvy = knihaDao.nacitajKnihy();
         vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(nazvy));
         vyhladaj = 0;
     }
     
+    private void nazvuRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
     
     private void zanruRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
         zanre = knihaDao.nacitajZanre();
@@ -464,6 +464,16 @@ public class UvodneOkno extends javax.swing.JFrame {
     
     private void oblubenostiRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
         vyhladaj = 4;
+    }
+    
+    private void autoraRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        autori = autorDao.nacitajAutorov();
+        vyhladajComboBox.setVyhladavatelny(new VyhladavatelnyRetazec(autori));
+        vyhladaj = 1;
+    }
+    
+    private void autoraRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
     }
     
     private void jazykaRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {
@@ -492,34 +502,62 @@ public class UvodneOkno extends javax.swing.JFrame {
         pocetStranLabel.setText("Počet strán: " + kniha.getPocetStran());
     }
     
-    private void prihlasButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
-        try {
-            Pouzivatel pouzivatel = pouzivatelDao.prihlasPouzivatela(prihlasovacieMenoTextField.getText(),
-                    hesloPasswordField.getText());
-            if (pouzivatel.isJeAdmin()) {
-                new AdminOkno(pouzivatel).setVisible(true);
-                dispose();
-            } else {
-                new PouzivatelOkno(pouzivatel).setVisible(true);
-                dispose();
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    private void citajButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        if (kniha.getUrlKniha().length() > 4l) {
-            new CitacOkno(0, -1L, kniha).setVisible(true);
-        }
+    private void vyhladajComboBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
     }
     
     private void vyhladajComboBoxKeyPressed(java.awt.event.KeyEvent evt) {
         //TODO vyhladat po stalceny enter-u
     }
     
-    private void vyhladajComboBoxActionPerformed(java.awt.event.ActionEvent evt) {
+    private void vyhladajButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        vyhladajAkcia();
+    }
+    
+    private void citajButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        if (kniha.getUrlKniha().length() > 4) {
+            new CitacOkno(0, -1L, kniha).setVisible(true);
+        }
+    }
+    
+    private void odoberButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+    
+    private void odhlasButtonKeyPressed(java.awt.event.KeyEvent evt) {
+        dispose();
+        new UvodneOkno().setVisible(true);
+    }
+    
+    private void pridajKnihuButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        new PridajKnihu(this, false, pouzivatel.getIdPouzivatel()).setVisible(true);
+    }
+    
+    private void pridajButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        if(rozcitaneRadioButton.isSelected()) {
+            pouzivatelDao.pridajRozcitanu(pouzivatel, kniha, 0);
+        }
+        if(oblubeneRadioButton.isSelected()) {
+            pouzivatelDao.pridajOblubenu(pouzivatel, kniha);
+        }
+    }
+    
+    private void vyhladajORButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        if(rozcitaneRadioButton.isSelected()) {
+            knihy = knihaTableModel.nacitajRozcitane(pouzivatel);
+        }
+        if(oblubeneRadioButton.isSelected()) {
+            knihy = knihaTableModel.nacitajOblubene(pouzivatel);
+        }
+    }
+    
+    private void odoberButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        if(rozcitaneRadioButton.isSelected()) {
+            pouzivatelDao.odoberRozcitanu(pouzivatel, kniha);
+        }
+        if(oblubeneRadioButton.isSelected()) {
+            pouzivatelDao.odoberOblubenu(pouzivatel, kniha);
+        }
     }
     
     private void vyhladajAkcia() {
@@ -564,21 +602,21 @@ public class UvodneOkno extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UvodneOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UvodneOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UvodneOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UvodneOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PouzivatelOkno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
+        
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UvodneOkno().setVisible(true);
+                Pouzivatel p = new Pouzivatel(1L, "a", "f", "g", false);
+                new PouzivatelOkno(p).setVisible(true);
             }
         });
     }
@@ -588,24 +626,28 @@ public class UvodneOkno extends javax.swing.JFrame {
     private javax.swing.JRadioButton autoraRadioButton;
     private javax.swing.JButton citajButton;
     private javax.swing.JRadioButton formatuRadioButton;
-    private javax.swing.JPasswordField hesloPasswordField;
     private javax.swing.JRadioButton jazykaRadioButton;
     private javax.swing.JLabel menoAutoraLabel;
     private javax.swing.JRadioButton nazvuRadioButton;
     private javax.swing.JScrollPane oAutoroviScrollPane;
     private javax.swing.JPanel oKnihePanel;
     private javax.swing.JScrollPane oKniheScrollPane;
+    private javax.swing.JRadioButton oblubeneRadioButton;
+    private javax.swing.ButtonGroup oblubeneRozcitanebuttonGroup;
     private javax.swing.JRadioButton oblubenostiRadioButton;
+    private javax.swing.JButton odhlasButton;
+    private javax.swing.JButton odoberButton;
     private javax.swing.JLabel pocetStranLabel;
     private javax.swing.JTextArea popisAutoraTextArea;
     private javax.swing.JTextArea popisKnihyTextArea;
-    private javax.swing.JButton prihlasButton;
+    private javax.swing.JButton pridajButton;
+    private javax.swing.JButton pridajKnihuButton;
     private javax.swing.JPanel prihlasovaciPanel;
-    private javax.swing.JTextField prihlasovacieMenoTextField;
-    private javax.swing.JButton registrujButton;
+    private javax.swing.JRadioButton rozcitaneRadioButton;
     private javax.swing.JTable tabulkaTable;
     private javax.swing.JButton vyhladajButton;
     private KombacNasepkavac vyhladajComboBox;
+    private javax.swing.JButton vyhladajORButton;
     private javax.swing.JPanel vyhladavaciPanePanel;
     private javax.swing.ButtonGroup vyhladavajPodlaButtonGroup;
     private javax.swing.JLabel vyhladavajPodlaLabel;

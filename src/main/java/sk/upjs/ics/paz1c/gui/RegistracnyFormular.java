@@ -12,14 +12,15 @@ import sk.upjs.ics.paz1c.tovaren.MagicFactory;
  *
  * @author raven
  */
-public class RegistracnyFormular extends javax.swing.JFrame {
+public class RegistracnyFormular extends javax.swing.JDialog {
     
     private PouzivatelDao pouzivatelDao = MagicFactory.INSTANCE.pouzivatelDao();
     
     /**
-     * Creates new form RegistracnyFormular
+     * Creates new form Registracny
      */
-    public RegistracnyFormular() {
+    public RegistracnyFormular(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
     
@@ -32,20 +33,24 @@ public class RegistracnyFormular extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menoTextField = new javax.swing.JTextField();
-        hesloPasswordField = new javax.swing.JPasswordField();
         emailTextField = new javax.swing.JTextField();
+        hesloPasswordField = new javax.swing.JPasswordField();
+        menoTextField = new javax.swing.JTextField();
+        hesloLabel = new javax.swing.JLabel();
         registrujButton = new javax.swing.JButton();
         menoLabel = new javax.swing.JLabel();
-        hesloLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Registračný formulár - Virtuálna knižnica");
-        setAlwaysOnTop(true);
-        setAutoRequestFocus(false);
-        setFocusTraversalPolicyProvider(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registračný formulár");
+        setModal(true);
         setResizable(false);
+
+        hesloPasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hesloPasswordFieldActionPerformed(evt);
+            }
+        });
 
         menoTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,11 +58,7 @@ public class RegistracnyFormular extends javax.swing.JFrame {
             }
         });
 
-        hesloPasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hesloPasswordFieldActionPerformed(evt);
-            }
-        });
+        hesloLabel.setText("Heslo:");
 
         registrujButton.setText("Registruj sa");
         registrujButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -67,8 +68,6 @@ public class RegistracnyFormular extends javax.swing.JFrame {
         });
 
         menoLabel.setText("Meno:");
-
-        hesloLabel.setText("Heslo:");
 
         emailLabel.setText("E-mail:");
 
@@ -110,7 +109,7 @@ public class RegistracnyFormular extends javax.swing.JFrame {
                     .addComponent(emailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(registrujButton)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,8 +124,10 @@ public class RegistracnyFormular extends javax.swing.JFrame {
     }//GEN-LAST:event_menoTextFieldActionPerformed
 
     private void registrujButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrujButtonMouseClicked
-        pouzivatelDao.zaregistrujPouzivatela(menoTextField.getText(), hesloPasswordField.getText(),  emailTextField.getText());
-        this.dispose();
+        if(menoTextField.getText().length() > 0  && hesloPasswordField.getText().length() > 0) {
+            pouzivatelDao.zaregistrujPouzivatela(menoTextField.getText(), hesloPasswordField.getText(),  emailTextField.getText());
+            this.dispose();
+        }
     }//GEN-LAST:event_registrujButtonMouseClicked
     
     /**
@@ -155,11 +156,19 @@ public class RegistracnyFormular extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RegistracnyFormular.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
         
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistracnyFormular().setVisible(true);
+                RegistracnyFormular dialog = new RegistracnyFormular(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

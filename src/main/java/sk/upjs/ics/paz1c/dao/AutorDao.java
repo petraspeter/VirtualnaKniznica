@@ -19,13 +19,17 @@ public interface AutorDao {
     List<String> nacitajAutorov();
     
     Autor najdiAutora(String meno, String priezvisko, String stredne);
-        
+    
     Autor najdiAutora(Long id);
+    
+    Autor nacitajAutora(String zoStringu);
     
     public void pridajAutora(Autor autor);
     
     public void upravAutora(Autor autor);
     
     public void vymazAutora(Autor autor);
+    
+    public void upravAutorov(List<Autor> autori);
     
 }

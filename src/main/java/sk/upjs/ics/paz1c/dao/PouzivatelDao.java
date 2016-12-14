@@ -17,8 +17,20 @@ public interface PouzivatelDao {
     
     List<Kniha> oblubeneKnihy(Pouzivatel pouzivatel);
     
-     Map<Kniha, Integer> rozcitaneKnihy(Pouzivatel pouzivatel);
+    public void pridajOblubenu(Pouzivatel pouzivatel, Kniha kniha);
+    
+    public void pridajRozcitanu(Pouzivatel pouzivatel, Kniha kniha, int strana);
+    
+     public void odoberOblubenu(Pouzivatel pouzivatel, Kniha kniha);
+    
+    public void odoberRozcitanu(Pouzivatel pouzivatel, Kniha kniha);
+    
+    Map<Kniha, Integer> rozcitaneKnihySoStranami(Pouzivatel pouzivatel);
+    
+    List<Kniha> rozcitaneKnihy(Pouzivatel pouzivatel);
     
     List<Kniha> pridalPouzivatel(Pouzivatel pouzivatel);
+    
+    Pouzivatel nacitajPouzivatela(Long id);
     
 }

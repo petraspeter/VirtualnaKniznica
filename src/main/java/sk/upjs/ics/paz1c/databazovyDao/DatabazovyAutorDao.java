@@ -12,6 +12,7 @@ import sk.upjs.ics.paz1c.entity.Autor;
 import sk.upjs.ics.paz1c.entity.Kniha;
 import sk.upjs.ics.paz1c.mapovace.AutorRowMapper;
 import sk.upjs.ics.paz1c.mapovace.KnihaRowMapper;
+import sk.upjs.ics.paz1c.pomocneTriedy.CitacVstupu;
 import sk.upjs.ics.paz1c.pomocneTriedy.VytvaracAliasov;
 import sk.upjs.ics.paz1c.vynimky.AutorUzExistujeException;
 
@@ -74,7 +75,7 @@ public class DatabazovyAutorDao implements AutorDao{
     
     @Override
     public Autor najdiAutora(String meno, String stredne, String priezvisko) {
-        if (priezvisko != null) {
+        if (priezvisko != null && !priezvisko.equals("")) {
             String sql = "SELECT * FROM autor WHERE autor.alias_meno = ? "
                     + "AND autor.alias_priezvisko = ? AND autor.alias_stredne = ? ";
             return jdbcTemplate.queryForObject(sql, mapovacAutorov, meno, priezvisko, stredne);
@@ -186,6 +187,28 @@ public class DatabazovyAutorDao implements AutorDao{
     private List<Autor> najdiAutorov() {
         String sql = "SELECT * FROM autor";
         return jdbcTemplate.query(sql, mapovacAutorov);
+    }
+    
+    @Override
+    public Autor nacitajAutora(String zoStringu) {
+        CitacVstupu citacVstupu = new CitacVstupu();
+        String[] vstup = citacVstupu.vratPodretazceZoVstupu(zoStringu);
+        if(vstup.length > 2) {
+            return najdiAutora(vstup[0], vstup[1], vstup[2]);
+        } else {
+            if(vstup.length == 1) {
+                return najdiAutora(vstup[0], null, null);
+            } else {
+                return najdiAutora(vstup[0], null, vstup[1]);
+            }
+        }
+    }
+    
+    @Override
+    public void upravAutorov(List<Autor> autori) {
+        for (Autor autor : autori) {
+            upravAutora(autor);
+        }
     }
     
 }

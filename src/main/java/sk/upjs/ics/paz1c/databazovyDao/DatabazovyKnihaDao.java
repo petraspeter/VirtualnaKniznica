@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import sk.upjs.ics.paz1c.dao.KnihaDao;
 import sk.upjs.ics.paz1c.entity.Kniha;
 import sk.upjs.ics.paz1c.mapovace.KnihaRowMapper;
+import sk.upjs.ics.paz1c.pomocneTriedy.VytvaracAliasov;
 
 /**
  *
@@ -173,13 +174,22 @@ public class DatabazovyKnihaDao implements KnihaDao{
     }
     
     @Override
-    public Kniha najdiKnihu(String nazovKnihy) {
-//        String sql = "SELECT * FROM kniha  WHERE nazov_kniha = ?";
-//        return jdbcTemplate.queryForObject(sql, mapovacKnih, nazovKnihy);
-        
-        
-        String sql = "SELECT * FROM kniha WHERE nazov_kniha = ?";
-        return jdbcTemplate.queryForObject(sql, mapovacKnih, nazovKnihy);
+    public Long vratZaner(String zaner) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
+        String sql = "SELECT id_zaner FROM zaner WHERE zaner.alias_zaner = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, vytvaracAliasov.vytvorAlias(zaner));
+    }
+    
+    @Override
+    public void pridajZaner(String zaner) {
+        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
+        String aliasZaner = vytvaracAliasov.vytvorAlias(zaner);
+        try {
+            vratZaner(aliasZaner);
+        } catch (Exception e) {
+            String sql = "INSERT INTO zaner SET nazov_zaner = ?, alias_zaner = ?";
+            jdbcTemplate.update(sql, zaner, aliasZaner);
+        }
     }
     
 }

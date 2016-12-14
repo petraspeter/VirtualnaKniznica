@@ -1,6 +1,11 @@
 package sk.upjs.ics.paz1c.pomocneTriedy;
 
+import javax.xml.transform.Source;
 import org.apache.commons.lang3.StringUtils;
+import sk.upjs.ics.paz1c.dao.PouzivatelDao;
+import sk.upjs.ics.paz1c.entity.Pouzivatel;
+import sk.upjs.ics.paz1c.tovaren.MagicFactory;
+
 /**
  *
  * @author raven
@@ -18,5 +23,5 @@ public class CitacVstupu {
         String[] vysledok = vstup.split("\\W|_");
         return vysledok;
     }
-    
+        
 }

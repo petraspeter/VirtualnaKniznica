@@ -28,11 +28,12 @@ public class Autor {
     
     private String popisAutor;
     
+    private VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
+    
     public Autor() {
     }
     
     public Autor(Long idAutor, String menoAutor,  String priezviskoAutor, String stredneAutor, String popisAutor) {
-        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.idAutor = idAutor;
         this.menoAutor = menoAutor;
         this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
@@ -44,7 +45,6 @@ public class Autor {
     }
     
     public Autor(Long idAutor, String menoAutor, String priezviskoAutor, String stredneAutor) {
-        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.idAutor = idAutor;
         this.menoAutor = menoAutor;
         this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
@@ -55,7 +55,6 @@ public class Autor {
     }
     
     public Autor(String menoAutor, String priezviskoAutor, String stredneAutor) {
-        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.menoAutor = menoAutor;
         this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
         this.priezviskoAutor = priezviskoAutor;
@@ -65,7 +64,6 @@ public class Autor {
     }
     
     public Autor(String menoAutor, String priezviskoAutor, String stredneAutor, String popisAutor) {
-        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         this.menoAutor = menoAutor;
         this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
         this.priezviskoAutor = priezviskoAutor;
@@ -76,7 +74,6 @@ public class Autor {
     }
     
     public Autor(String meno, String popis) {
-        VytvaracAliasov vytvaracAliasov = new VytvaracAliasov();
         CitacVstupu citacVstupu = new CitacVstupu();
         String[] vstup = citacVstupu.vratPodretazceZoVstupu(meno);
         if(vstup.length == 2) {
@@ -109,6 +106,7 @@ public class Autor {
     
     public void setMenoAutor(String menoAutor) {
         this.menoAutor = menoAutor;
+        this.aliasMeno = vytvaracAliasov.vytvorAlias(menoAutor);
     }
     
     public String getAliasMeno() {
@@ -125,6 +123,7 @@ public class Autor {
     
     public void setPriezviskoAutor(String priezviskoAutor) {
         this.priezviskoAutor = priezviskoAutor;
+        this.aliasPriezvisko = vytvaracAliasov.vytvorAlias(priezviskoAutor);
     }
     
     public String getAliasPriezvisko() {
@@ -141,6 +140,7 @@ public class Autor {
     
     public void setStredneAutor(String stredneAutor) {
         this.stredneAutor = stredneAutor;
+        this.stredneAutor = vytvaracAliasov.vytvorAlias(stredneAutor);
     }
     
     public String getAliasStredne() {

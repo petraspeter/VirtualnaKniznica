@@ -44,8 +44,9 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao{
         Pouzivatel pouzivatel = new Pouzivatel();
         try {
             boolean prihlas = overMenoAHeslo(meno, heslo);
+            System.out.println(prihlas);
             if(prihlas) {
-                String sql = "SELECT * FROM pouzivatel WHERE meno = ?";
+                String sql = "SELECT * FROM pouzivatel WHERE meno_pouzivatel = ?";
                 pouzivatel = jdbcTemplate.queryForObject(sql, mapovacPouzivatelov, meno);
             }
         } catch (DataAccessException | NoSuchAlgorithmException e) {
@@ -108,7 +109,7 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao{
     }
     
     @Override
-    public  Map<Kniha, Integer> rozcitaneKnihy(Pouzivatel pouzivatel) {
+    public  Map<Kniha, Integer> rozcitaneKnihySoStranami(Pouzivatel pouzivatel) {
         Map<Kniha, Integer> mapa = new HashMap<>();
         String sql1 = "SELECT * FROM kniha JOIN rozcitane on kniha.id_kniha = rozcitane.kniha_rozcitane "
                 + "WHERE pouzivatel_rozcitane = ?";
@@ -142,6 +143,88 @@ public class DatabazovyPouzivatelDao implements PouzivatelDao{
         md.update((heslo).getBytes());
         byte[] byteHash = md.digest();
         return DatatypeConverter.printHexBinary(byteHash).equals(hash);
+    }
+    
+    @Override
+    public void pridajOblubenu(Pouzivatel pouzivatel, Kniha kniha) {
+        String sql = "SELECT id_oblubene from oblubene WHERE oblubene.kniha_oblubene = ? "
+                + "AND oblubene.pouzivatel_oblubene = ?";
+        /*
+        pozrieme sa, ci ju uz nahodou nemame v oblubenych
+        */
+        try {
+            /*
+            ak ano, tak nic nerobime
+            */
+            long l = jdbcTemplate.queryForObject(sql, Long.class, kniha.getIdKniha(), pouzivatel.getIdPouzivatel());
+        } catch (Exception e) {
+            /*
+            ak nie, tak ju pridame
+            */
+            Map<String, Object> pridajOblubenu = new HashMap<>();
+            pridajOblubenu.put("kniha_oblubene", kniha.getIdKniha());
+            pridajOblubenu.put("pouzivatel_oblubene",  pouzivatel.getIdPouzivatel());
+            sql = "INSERT INTO oblubene SET kniha_oblubene = :kniha_oblubene, "
+                    + "pouzivatel_oblubene = :pouzivatel_oblubene";
+            namedParameterJdbcTemplate.update(sql, pridajOblubenu);
+        }
+    }
+    
+    @Override
+    public void pridajRozcitanu(Pouzivatel pouzivatel, Kniha kniha, int strana) {
+        String sql = "SELECT id_rozcitane from rozcitane WHERE rozcitane.kniha_rozcitane = ? "
+                + "AND rozcitane.pouzivatel_rozcitane = ?";
+        /*
+        pozrieme sa, ci ju uz nahodou nemame v rozcitanych
+        */
+        try {
+            /*
+            ak ano, tak updatneme stranu
+            */
+            long l = jdbcTemplate.queryForObject(sql, Long.class, kniha.getIdKniha(), pouzivatel.getIdPouzivatel());
+            Map<String, Object> pridajRozcitanu = new HashMap<>();
+            pridajRozcitanu.put("id_rozcitane",  l);
+            pridajRozcitanu.put("strana_rozcitane",  strana);
+            sql = "INSERT INTO rozcitane SET strana_rozcitane = :strana_rozcitane "
+                    + "WHERE id_rozcitane = :id_rozcitane";
+            namedParameterJdbcTemplate.update(sql, pridajRozcitanu);
+        } catch (Exception e) {
+            /*
+            ak nie, tak ju pridame
+            */
+            Map<String, Object> pridajRozcitanu = new HashMap<>();
+            pridajRozcitanu.put("kniha_rozcitane", kniha.getIdKniha());
+            pridajRozcitanu.put("pouzivatel_rozcitane",  pouzivatel.getIdPouzivatel());
+            pridajRozcitanu.put("strana_rozcitane",  strana);
+            sql = "INSERT INTO rozcitane SET kniha_rozcitane = :kniha_rozcitane, "
+                    + "pouzivatel_rozcitane = :pouzivatel_rozcitane, strana_rozcitane = :strana_rozcitane";
+            namedParameterJdbcTemplate.update(sql, pridajRozcitanu);
+        }
+    }
+    
+    @Override
+    public Pouzivatel nacitajPouzivatela(Long id) {
+        String sql = "SELECT * FROM pouzivatel WHERE id_pouzivatel = ?";
+        return jdbcTemplate.queryForObject(sql, mapovacPouzivatelov, id);
+    }
+    
+    @Override
+    public void odoberOblubenu(Pouzivatel pouzivatel, Kniha kniha) {
+        String sql = "DELETE FROM oblubene WHERE pouzivatel_oblubene = ? AND kniha_oblubene = ?";
+        jdbcTemplate.update(sql, pouzivatel.getIdPouzivatel(), kniha.getIdKniha());
+    }
+    
+    @Override
+    public void odoberRozcitanu(Pouzivatel pouzivatel, Kniha kniha) {
+        String sql = "DELETE FROM rozcitane WHERE pouzivatel_rozcitane = ? AND kniha_rozcitane = ?";
+        jdbcTemplate.update(sql, pouzivatel.getIdPouzivatel(), kniha.getIdKniha());
+    }
+    
+    @Override
+    public List<Kniha> rozcitaneKnihy(Pouzivatel pouzivatel) {
+        String sql1 = "SELECT * FROM kniha JOIN rozcitane on kniha.id_kniha = rozcitane.kniha_rozcitane "
+                + "WHERE pouzivatel_rozcitane = ?";
+        return jdbcTemplate.query(sql1, mapovacKnih, pouzivatel.getIdPouzivatel());
     }
     
 }
