@@ -125,7 +125,7 @@ public class DatabazovyKnihaDao implements KnihaDao{
         vlozKnihuZMapy.put("jazyk_2", kniha.getJazyk2());
         vlozKnihuZMapy.put("oblubenost_kniha", kniha.getOblubenostKniha());
         vlozKnihuZMapy.put("pocet_stran", kniha.getPocetStran());
-        vlozKnihuZMapy.put("popis_kniha", kniha.getPocetStran());
+        vlozKnihuZMapy.put("popis_kniha", kniha.getPopisKniha());
         
         String sql = "INSERT INTO kniha SET nazov_kniha = :nazov_kniha, alias_kniha = :alias_kniha, "
                 + "autor_kniha = :autor_kniha, url_kniha = :url_kniha, pridal_kniha = :pridal_kniha, "

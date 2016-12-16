@@ -114,14 +114,17 @@ public class KnihaTableModel extends AbstractTableModel {
     public List<Kniha> naciatajPodlaAutora(String autor) {
         CitacVstupu citacVstupu = new CitacVstupu();
         String[] vstup = citacVstupu.vratPodretazceZoVstupu(autor);
+        for (int i = 0; i < vstup.length; i++) {
+            System.out.println(i+": vstup je : "+ vstup[i]);
+        }
         knihy.clear();
-        if(vstup.length > 2) {
-            knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], vstup[1], vstup[2]);
+        if(vstup.length >= 3) {
+            knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], vstup[2], vstup[1]);
         } else {
             if(vstup.length == 2) {
-                knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], null, null);
+                knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], vstup[1], null);
             } else {
-                knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], null, vstup[1]);
+                knihy = autorDao.najdiKnihuPodlaAutora(vstup[0], "", "");
             }
         }
         fireTableDataChanged();

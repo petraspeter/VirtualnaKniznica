@@ -1,33 +1,22 @@
 package sk.upjs.ics.paz1c.pomocneTriedy;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfPages;
-import com.itextpdf.text.pdf.PdfReader;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
-
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-
 
 /**
  *

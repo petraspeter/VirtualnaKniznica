@@ -58,9 +58,7 @@ public class DatabazovyAutorDao implements AutorDao{
     private List<Kniha> najdiKnihuPodlaAutora(String meno) {
         String sql1 = "SELECT * FROM kniha JOIN autor on kniha.autor_kniha = autor.id_autor WHERE "
                 + "autor.alias_meno LIKE '%' ? '%'";
-        List<Kniha> knihy = jdbcTemplate.query(sql1, mapovacKnih, meno);
-        
-        return knihy;
+        return jdbcTemplate.query(sql1, mapovacKnih, meno);
     }
     
     @Override

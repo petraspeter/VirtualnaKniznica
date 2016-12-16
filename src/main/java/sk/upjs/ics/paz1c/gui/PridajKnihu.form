@@ -282,6 +282,9 @@
     <Component class="javax.swing.JTextField" name="priezviskoAutorTextField">
     </Component>
     <Component class="javax.swing.JTextField" name="stredneAutorTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stredneAutorTextFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

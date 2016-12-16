@@ -133,6 +133,12 @@ public class PridajKnihu extends javax.swing.JDialog {
             }
         });
 
+        stredneAutorTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stredneAutorTextFieldActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Priezvisko:");
 
         jLabel2.setText("Stredné:");
@@ -261,21 +267,32 @@ public class PridajKnihu extends javax.swing.JDialog {
     private void pridajButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pridajButtonMouseClicked
         Autor autor;
         Long idZaner = 0L;
-        if(stredneAutorTextField.getText().length() > 1) {
+        if(stredneAutorTextField.getText().isEmpty()) {
             try {
-                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
-            } catch (Exception e){
-                autor = new Autor(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText(), popisAutoraTextField.getText());
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null);
+            } catch(Exception e) {
+                autor = new Autor();
+                autor.setMenoAutor(menoAutorTextField.getText());
+                autor.setPriezviskoAutor(priezviskoAutorTextField.getText());
+                if(!popisAutoraTextField.getText().isEmpty()) {
+                    autor.setPopisAutor(popisAutoraTextField.getText());
+                }
                 autorDao.pridajAutora(autor);
-                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null);
             }
         } else {
-             try {
-                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null);
-            } catch (Exception e){
-                autor = new Autor(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), null, popisAutoraTextField.getText());
+            try {
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(),  stredneAutorTextField.getText(), priezviskoAutorTextField.getText());
+            } catch(Exception e) {
+                autor = new Autor();
+                autor.setMenoAutor(menoAutorTextField.getText());
+                autor.setPriezviskoAutor(priezviskoAutorTextField.getText());
+                autor.setStredneAutor(stredneAutorTextField.getText());
+                if(!popisAutoraTextField.getText().isEmpty()) {
+                    autor.setPopisAutor(popisAutoraTextField.getText());
+                }
                 autorDao.pridajAutora(autor);
-                autor = autorDao.najdiAutora(menoAutorTextField.getText(), priezviskoAutorTextField.getText(), stredneAutorTextField.getText());
+                autor = autorDao.najdiAutora(menoAutorTextField.getText(),  stredneAutorTextField.getText(), priezviskoAutorTextField.getText());
             }
         }
         try {
@@ -291,6 +308,10 @@ public class PridajKnihu extends javax.swing.JDialog {
         knihaDao.pridajKnihu(kniha);
         dispose();
     }//GEN-LAST:event_pridajButtonMouseClicked
+
+    private void stredneAutorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stredneAutorTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stredneAutorTextFieldActionPerformed
     
     private Long nacitajIdZanru(String zaner) {
         return knihaDao.vratZaner(zaner);
